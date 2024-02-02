@@ -1,0 +1,65 @@
+---
+#format: typstdoc-typst
+format:
+  typstdoc-typst:
+    mainfont: "Atkinson Hyperlegible"
+    numbering: "1 / 1"
+    papersize: "us-letter"
+    fontsize: 1em
+    margin:
+      x: 1.25in
+      y: 1.25in
+    fontfill: blue
+    columns: 1
+    # width: 11in
+    # height: 11in
+    number-align: right + top
+    # flipped: true
+    justify: true
+---
+
+## Introduction
+
+*TODO* Create an example file that demonstrates the formatting and features of your format.
+
+## More Information
+
+You can learn more about creating custom Typst templates here: 
+
+<https://quarto.org/docs/prerelease/1.4/typst.html#custom-formats>
+
+```{r}
+#| fig-width: 5
+library(ggplot2)
+ggplot(mtcars, aes(wt, mpg)) + geom_point()
+```
+
+![](typst.png){width=2in}
+
+:::{.callout-note collapse=false appearance='default' icon=true}
+## Optional caption (note)
+- Hide callout body with 'collapse=true'
+- Remove 'collapse' to prevent expandability
+- Set appearance to 'default', 'simple' or 'minimal'
+- Remove icon with 'icon=false'
+:::
+
+
+ Etiam ullamcorper neque sed sapien viverra consequat vel sit amet ipsum. Vivamus faucibus vestibulum lacus, in sollicitudin ipsum ullamcorper ac. Proin et rutrum nibh. Donec id justo in elit sollicitudin fermentum et at sem.
+
+Etiam sed nibh at elit euismod suscipit. Nulla quis leo ullamcorper, mollis mauris vel, tristique sapien. Nulla facilisi. Aenean pretium dui libero, vitae consectetur quam rhoncus ut. Nullam turpis eros, lobortis id mi eget, euismod aliquet ligula. Integer non diam vitae ipsum faucibus cursus. Donec nisl quam, faucibus a sapien sed, tincidunt condimentum eros. Etiam porta, ligula quis dignissim gravida, ante dolor maximus tortor, at aliquet nibh risus vitae nunc.
+
+Curabitur ut tempor libero, at luctus libero. Duis nec arcu non arcu vulputate fermentum in nec augue. In leo tortor, aliquet eget massa nec, aliquam tempor diam. Duis tincidunt viverra tortor, sit amet dictum ante iaculis in. Aliquam ut neque vitae eros aliquam luctus. Proin leo nisl, interdum eget ipsum eu, lacinia vestibulum ligula. Phasellus ac orci vel ex hendrerit pulvinar. Fusce tincidunt non augue sit amet pulvinar. Sed fringilla nisi mi, at lacinia eros tristique eget.
+
+Duis molestie eleifend velit vitae gravida. Aenean eget finibus lectus. Praesent gravida dolor eu justo rhoncus, nec ultrices urna convallis. Fusce id varius ipsum, sit amet tempus ante. Morbi sit amet lobortis ex, id efficitur ex. Praesent vestibulum libero quis lacus mollis finibus. Aenean sed tortor ut urna faucibus sodales. Donec facilisis rutrum commodo. Vivamus mattis volutpat erat, ac vestibulum magna consectetur et. Quisque scelerisque metus in tellus efficitur, ac efficitur dui volutpat. Nam ut dui consequat velit pulvinar blandit venenatis sed elit. Ut consequat tincidunt lorem ut fringilla. Sed luctus, diam vel convallis gravida, enim turpis condimentum est, quis porta turpis libero ac ipsum.
+
+Suspendisse magna magna, viverra luctus lectus eget, ultricies lobortis lacus. Integer elementum odio vel dignissim commodo. Ut ut dignissim eros. Nam ut arcu eleifend, hendrerit nisi eu, dictum nisi. Suspendisse id tellus consectetur, malesuada tortor in, faucibus arcu. Sed sagittis ligula vitae ex posuere vulputate. Fusce sit amet sagittis nulla. Phasellus convallis eros mauris, eu commodo magna pretium eu. Sed at leo condimentum, suscipit sapien sit amet, semper erat.
+
+Sed finibus rhoncus elit, eu dictum augue suscipit et. Nulla eu erat vitae est egestas euismod. Aliquam erat volutpat. Nulla mattis id nisl eu euismod. Morbi sed rutrum ipsum. Pellentesque facilisis gravida felis, ac feugiat lectus commodo sit amet. Sed diam nisl, tempus eu risus ac, hendrerit tempor justo. Nullam mollis ligula ac vestibulum aliquet. Phasellus justo massa, fermentum vel molestie id, dictum a erat. Cras lobortis turpis magna, sed facilisis arcu dapibus vel. Sed facilisis luctus bibendum.
+
+1000,0000000sfafs
+';af
+
+Duis congue vestibulum felis, at vehicula sapien sodales sit amet. Nulla facilisi. Nulla facilisi. Quisque non convallis lacus. Sed mollis diam leo, sit amet pellentesque nisl laoreet ut. Nam nec enim consectetur, pharetra orci vitae, eleifend dolor. Nunc vel pharetra nunc.
+
+Integer gravida scelerisque quam, in tempor tellus imperdiet non. Sed lacinia nulla in quam efficitur sollicitudin. Praesent sed quam ac orci dapibus pulvinar. Donec eu convallis purus. Sed nec ultricies orci. Nunc quis elit ligula. Nullam sed dapibus mauris. Sed vestibulum scelerisque tellus, vitae sodales ante. Quisque tincidunt est id arcu interdum, id elementum nisi aliquet. Aliquam non elementum diam. Morbi bibendum ipsum ut turpis sodales rhoncus. Sed lacinia, risus scelerisque fringilla tincidunt, nulla augue fermentum turpis, vel dictum urna leo in elit. Proin blandit egestas egestas.
