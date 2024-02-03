@@ -1,40 +1,28 @@
 ---
-#format: typstdoc-typst
 format:
   typstdoc-typst:
-    mainfont: "Atkinson Hyperlegible"
     numbering: "1 / 1"
     papersize: "us-letter"
     fontsize: 1em
     margin:
-      x: 1.25in
-      y: 1.25in
+      x: 1in
+      top: 1in
+      bottom: 1.5in
     fontfill: blue
-    columns: 1
-    # width: 11in
-    # height: 11in
-    number-align: right + top
-    # flipped: true
-    justify: true
+    columns: 2
+    number-align: right + bottom
+    flipped: true
 ---
 
 ## Introduction
 
-*TODO* Create an example file that demonstrates the formatting and features of your format.
+This template shows the use of the `fontfill`, `number-align`, `flipped`, and `number-align` parameters.
 
 ## More Information
 
 You can learn more about creating custom Typst templates here: 
 
 <https://quarto.org/docs/prerelease/1.4/typst.html#custom-formats>
-
-```{r}
-#| fig-width: 5
-library(ggplot2)
-ggplot(mtcars, aes(wt, mpg)) + geom_point()
-```
-
-![](typst.png){width=2in}
 
 :::{.callout-note collapse=false appearance='default' icon=true}
 ## Optional caption (note)
@@ -55,11 +43,4 @@ Duis molestie eleifend velit vitae gravida. Aenean eget finibus lectus. Praesent
 
 Suspendisse magna magna, viverra luctus lectus eget, ultricies lobortis lacus. Integer elementum odio vel dignissim commodo. Ut ut dignissim eros. Nam ut arcu eleifend, hendrerit nisi eu, dictum nisi. Suspendisse id tellus consectetur, malesuada tortor in, faucibus arcu. Sed sagittis ligula vitae ex posuere vulputate. Fusce sit amet sagittis nulla. Phasellus convallis eros mauris, eu commodo magna pretium eu. Sed at leo condimentum, suscipit sapien sit amet, semper erat.
 
-Sed finibus rhoncus elit, eu dictum augue suscipit et. Nulla eu erat vitae est egestas euismod. Aliquam erat volutpat. Nulla mattis id nisl eu euismod. Morbi sed rutrum ipsum. Pellentesque facilisis gravida felis, ac feugiat lectus commodo sit amet. Sed diam nisl, tempus eu risus ac, hendrerit tempor justo. Nullam mollis ligula ac vestibulum aliquet. Phasellus justo massa, fermentum vel molestie id, dictum a erat. Cras lobortis turpis magna, sed facilisis arcu dapibus vel. Sed facilisis luctus bibendum.
-
-1000,0000000sfafs
-';af
-
-Duis congue vestibulum felis, at vehicula sapien sodales sit amet. Nulla facilisi. Nulla facilisi. Quisque non convallis lacus. Sed mollis diam leo, sit amet pellentesque nisl laoreet ut. Nam nec enim consectetur, pharetra orci vitae, eleifend dolor. Nunc vel pharetra nunc.
-
-Integer gravida scelerisque quam, in tempor tellus imperdiet non. Sed lacinia nulla in quam efficitur sollicitudin. Praesent sed quam ac orci dapibus pulvinar. Donec eu convallis purus. Sed nec ultricies orci. Nunc quis elit ligula. Nullam sed dapibus mauris. Sed vestibulum scelerisque tellus, vitae sodales ante. Quisque tincidunt est id arcu interdum, id elementum nisi aliquet. Aliquam non elementum diam. Morbi bibendum ipsum ut turpis sodales rhoncus. Sed lacinia, risus scelerisque fringilla tincidunt, nulla augue fermentum turpis, vel dictum urna leo in elit. Proin blandit egestas egestas.
+Sed finibus rhoncus elit, eu dictum augue suscipit et. Nulla eu erat vitae est egestas euismod. Aliquam erat volutpat. Nulla mattis id nisl eu euismod. Morbi sed rutrum ipsum. Pellentesque facilisis gravida felis, ac feugiat lectus commodo sit amet. Sed diam nisl, tempus eu risus ac, hendrerit tempor justo. Nullam mollis ligula ac vestibulum aliquet.

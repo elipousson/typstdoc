@@ -1,5 +1,5 @@
 // 2023-10-09: #fa-icon("fa-info") is not working, so we'll eval "#fa-info()" instead
-// 2024-01-29: copied from quarto-cli
+// 2024-01-29: copied from quarto-cli and revised to use em units
 #let callout(body: [], title: "Callout", background_color: rgb("#dddddd"), icon: none, icon_color: black) = {
   block(
     breakable: false,
@@ -31,12 +31,13 @@
   margin: (x: 1.25in, y: 1.25in),
   paper: "us-letter",
   flipped: false,
-  // width: (),
-  // height: (),
   fill: none,
   lang: "en",
   region: "US",
   justify: false,
+  linebreaks: "optimized",
+  first-line-indent: 0pt,
+  hanging-indent: 0pt,
   leading: 0.65em,
   font: (),
   fontsize: 11pt,
@@ -47,33 +48,44 @@
   numbering: "1",
   number-align: center + bottom,
   sectionnumbering: none,
-  footer: false,
+  header: none,
+  header-ascent: 30%,
+  footer: none,
+  footer-descent: 30%,
   toc: false,
+  toc_title: none,
+  toc_depth: none,
   doc,
 ) = {
 
   set page(
-      paper: paper,
-      flipped: flipped,
-      margin: margin,
-      fill: fill,
-      numbering: numbering,
-      number-align: number-align
-      // footer: #documentfooter(footer)
-    )
+    paper: paper,
+    flipped: flipped,
+    margin: margin,
+    fill: fill,
+    numbering: numbering,
+    number-align: number-align,
+    header: header,
+    header-ascent: header-ascent,
+    footer: footer,
+    footer-descent: footer-descent)
 
   set par(
-  justify: justify,
-  leading: leading
-  )
-  set text(lang: lang,
-           region: region,
-           font: font,
-           weight: fontweight,
-           size: fontsize,
-           fill: fontfill,
-           slashed-zero: slashed-zero
-           )
+    justify: justify,
+    first-line-indent: first-line-indent,
+    hanging-indent: hanging-indent,
+    linebreaks: linebreaks,
+    leading: leading)
+
+  set text(
+    lang: lang,
+    region: region,
+    font: font,
+    weight: fontweight,
+    size: fontsize,
+    fill: fontfill,
+    slashed-zero: slashed-zero)
+    
   set heading(numbering: sectionnumbering)
 
   if title != none {
@@ -111,10 +123,15 @@
   }
 
   if toc {
+    let title = if toc_title == none {
+      auto
+    } else {
+      toc_title
+    }
     block(above: 0em, below: 2em)[
     #outline(
-      title: auto,
-      depth: none
+      title: toc_title,
+      depth: toc_depth
     );
     ]
   }
