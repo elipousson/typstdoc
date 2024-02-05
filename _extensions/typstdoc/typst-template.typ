@@ -8,74 +8,129 @@
     width: 100%,
     radius: 0.16em,
     block(
-      inset: 0.24em,
+      inset: 0.25em,
       width: 100%,
-      below: 0pt,
+      below: -0.1em,
       block(
         fill: background_color,
         width: 100%,
-        inset: 0.25em)[#text(icon_color, baseline: -0.1em, size: 0.8em, weight: 700)[#icon] #title]) +
+        inset: 0.25em)[#text(
+          icon_color,
+          baseline: -0.1em,
+          size: 0.8em,
+          weight: 700)[#icon] #title]) +
       block(
         inset: 0.25em,
         width: 100%,
         block(fill: white, width: 100%, inset: 0.8em, body)))
 }
 
-#let document(
+#let typstdoc(
+
+  // Document attributes
+  
   title: none,
-  authors: none,
-  date: none,
+  authors: (),
+  keywords: (),
+  date: auto,
   abstract: none,
+  lang: "en",
+  region: "US",
+  
+  // Page layout, fill, and numbering
+
+  paper: "us-letter",
   cols: 1,
   gutter: 4%,
   margin: (x: 1.25in, y: 1.25in),
-  paper: "us-letter",
   flipped: false,
   fill: none,
-  lang: "en",
-  region: "US",
+  page-numbering: "1",
+  page-number-align: right + bottom,
+  
+  // Typography
+
+  font: (),
+  fontsize: 11pt,
+  fontweight: "regular",
+  fontfill: luma(0%),
+  slashed-zero: false,
+  monofont: ("Courier"),
+  
+  // Body text typography
+
   justify: false,
   linebreaks: "optimized",
   first-line-indent: 0pt,
   hanging-indent: 0pt,
   leading: 0.65em,
-  font: (),
-  fontsize: 11pt,
-  fontweight: "regular",
-  spacing: 3em,
-  fontfill: luma(0%),
-  slashed-zero: true,
-  numbering: "1",
-  number-align: center + bottom,
+  spacing: 1.25em,
+  
+  // Title typography
+
+  title-font: (),
+  title-align: center,
+  title-size: 1.5em,
+  title-inset: 2em,
+  title-weight: "bold",
+  
+  // Section numbering
+
   sectionnumbering: none,
+
+  // Table of contents
+
+  toc: false,
+  toc_title: none,
+  toc_depth: none,
+  
+  // Header and footer
+
   header: none,
   header-ascent: 30%,
   footer: none,
   footer-descent: 30%,
-  toc: false,
-  toc_title: none,
-  toc_depth: none,
+  
+  // List numbering and indent
+  
+  list-numbering: "1.",
+  list-indent: 0pt,
+  list-body-indent: 0.5em,
+  
+  // Bibliography
+  
+  bibliography-file: none,
+  
   doc,
 ) = {
 
+  // Formats the author's names in a list with commas and a
+  // final "and".
+  let names = authors.map(author => author.name)
+  let author-string = if authors.len() == 2 {
+    names.join(" and ")
+  } else {
+    names.join(", ", last: ", and ")
+  }
+
+  // Set document metadata
+  set document(
+    title: title,
+    author: names,
+    date: date)
+
+  // Set page layout
   set page(
     paper: paper,
     flipped: flipped,
     margin: margin,
     fill: fill,
-    numbering: numbering,
-    number-align: number-align,
+    numbering: page-numbering,
+    number-align: page-number-align,
     header: header,
     header-ascent: header-ascent,
     footer: footer,
     footer-descent: footer-descent)
-
-  set par(
-    justify: justify,
-    first-line-indent: first-line-indent,
-    hanging-indent: hanging-indent,
-    linebreaks: linebreaks,
-    leading: leading)
 
   set text(
     lang: lang,
@@ -85,12 +140,22 @@
     size: fontsize,
     fill: fontfill,
     slashed-zero: slashed-zero)
+  
+  show raw: set text(font: monofont)
     
-  set heading(numbering: sectionnumbering)
+  set heading(
+    numbering: sectionnumbering)
+    
+  // Display the bibliography, if supplied
+  if bibliography-file != none {
+    show bibliography: set text(fontsize * 0.8)
+    show bibliography: pad.with(x: fontsize * 0.4)
+    bibliography(bibliography-file)
+  }
 
   if title != none {
-    align(center)[#block(inset: 2em)[
-      #text(weight: "bold", size: 1.5em)[#title]
+    align(title-align)[#block(inset: title-inset)[
+      #text(font: title-font, weight: title-weight, size: title-size)[#title]
     ]]
   }
 
@@ -101,7 +166,7 @@
       columns: (1fr,) * ncols,
       row-gutter: 1.5em,
       ..authors.map(author =>
-          align(center)[
+          align(title-align)[
             #author.name \
             #author.affiliation \
             #author.email
@@ -110,18 +175,31 @@
     )
   }
 
-  if date != none {
-    align(center)[#block(inset: 1em)[
+  if date != none and date != auto {
+    align(title-align)[#block(inset: title-size * 0.5)[
       #date
     ]]
   }
 
   if abstract != none {
-    block(inset: 2em)[
-    #text(weight: "semibold")[Abstract] #h(1em) #abstract
+    block(inset: title-inset)[
+    #text(weight: "semibold")[Abstract] #h(title-size * 0.5) #abstract
     ]
   }
+  
+  // Configure paragraph properties.
+    
+  set par(
+    justify: justify,
+    first-line-indent: first-line-indent,
+    hanging-indent: hanging-indent,
+    linebreaks: linebreaks,
+    leading: leading)
 
+  show par: set block(spacing: spacing)
+
+  // Configure table of contents
+  
   if toc {
     let title = if toc_title == none {
       auto
@@ -136,8 +214,22 @@
     ]
   }
 
-  show: columns.with(cols, gutter: (gutter))
-  // show par: set block(spacing: (spacing), breakable: false)
+  // Configure lists
+  
+  set enum(
+    indent: list-indent,
+    numbering: list-numbering,
+    body-indent: list-body-indent)
 
-  doc
+  set list(
+    indent: list-indent,
+    body-indent: list-body-indent)
+  
+  // Configure columns
+  
+  if cols == 1 {
+    doc
+  } else {
+    columns(cols, gutter: (gutter), doc)
+  }
 }

@@ -20,7 +20,6 @@ The format also overrides the standard template for callouts by converting units
   - fontweight
   - spacing
   - slashed-zero
-  - leading
 - par
   - justify
   - first-line-indent
@@ -29,8 +28,8 @@ The format also overrides the standard template for callouts by converting units
   - leading
 - page
   - fill
-  - numbering
-  - number-align
+  - page-numbering
+  - page-number-align
   
 The header and footer parameters are not currently working. Support for custom list formatting will be added soon. 
 
