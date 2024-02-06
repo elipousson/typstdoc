@@ -151,6 +151,15 @@ $endif$
 $if(header)$
   header: [$header$],
 $endif$
+$if(header-fontfill)$
+  header-fontfill: $header-fontfill$,
+$endif$
+$if(header-fontsize)$
+  header-fontsize: $header-fontsize$,
+$endif$
+$if(header-align)$
+  header-align: [$header-align$],
+$endif$
 $if(header-ascent)$
   header-ascent: $header-ascent$,
 $endif$

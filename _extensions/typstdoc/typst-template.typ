@@ -106,7 +106,7 @@
   fontweight: "regular",
   fontfill: luma(0%),
   slashed-zero: false,
-  monofont: (), // ("Courier"),
+  monofont: ("Courier"),
   
   // Body text typography
 
@@ -120,18 +120,18 @@
   // Title typography
 
   title-font: (),
+  title-fontsize: 1.5em,
+  title-weight: "bold",
   title-fontfill: (),
   title-align: center,
-  title-fontsize: 1.5em,
   title-inset: 2em,
-  title-weight: "bold",
   
   // Section numbering
 
   sectionnumbering: none,
   heading-font: (),
-  heading-fontfill: none,
   heading-fontsize: (),
+  heading-fontfill: none,
 
   // Table of contents
 
@@ -142,12 +142,16 @@
   // Header and footer
 
   header: none,
+  header-font: (),
+  header-fontsize: (),
+  header-fontfill: (),
+  header-align: left,
   header-ascent: 30%,
   
   footer: none,
   footer-font: (),
-  footer-fontfill: (),
   footer-fontsize: (),
+  footer-fontfill: (),
   footer-align: left,
   footer-descent: 30%,
   
@@ -189,18 +193,23 @@
     fill: fill,
     numbering: page-numbering,
     number-align: page-number-align,
-    header: header,
+    
+    // Set header defaults from other variables
+    header: running-text-block(
+      font: ifnone(header-font, font),
+      fontsize: ifnone(header-fontsize, fontsize),
+      fontfill: ifarray(header-fontfill, fontfill),
+      text-align: ifnone(header-align, title-align),
+      footer),
     header-ascent: header-ascent,
     
     // Set footer defaults from other variables
     footer: running-text-block(
       font: ifnone(footer-font, font),
-      fontfill: ifarray(footer-fontfill, fontfill),
-      // as-default-fill(footer-fontfill, fontfill),
-      text-align: ifnone(footer-align, title-align),
       fontsize: ifnone(footer-fontsize, fontsize),
+      fontfill: ifarray(footer-fontfill, fontfill),
+      text-align: ifnone(footer-align, title-align),
       footer),
-    // footer: footer,
     footer-descent: footer-descent)
 
   // Set overall text defaults
@@ -215,15 +224,15 @@
     slashed-zero: slashed-zero)
   
   // Set font for inline code and blocks
-  show raw: set text(font: (monofont, "Courier"))
+  show raw: set text(font: monofont)
     
   // Configure heading typography
   set heading(
     numbering: sectionnumbering)
     
   show heading: set text(
-    size: ifnone(heading-fontsize, fontsize),
     font: ifnone(heading-font, font),
+    size: ifnone(heading-fontsize, fontsize),
     fill: ifnone(heading-fontfill, fontfill)
   )
     
@@ -238,9 +247,9 @@
     align(title-align)[#block(inset: title-inset)[
       #text(
         font: ifnone(title-font, font),
-        fill: ifnone(title-fontfill, fontfill),
         weight: title-weight,
-        size: title-fontsize
+        size: title-fontsize,
+        fill: ifnone(title-fontfill, fontfill)
       )[#title]
     ]]
   }
