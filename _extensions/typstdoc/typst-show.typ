@@ -27,6 +27,9 @@ $endif$
 $if(abstract)$
   abstract: [$abstract$],
 $endif$
+$if(abstract-label)$
+  abstract-label: "$abstract-label$",
+$endif$
 
 // Page layout, fill, and numbering
 
@@ -102,11 +105,14 @@ $if(title-font)$
 $else$
   title-font: ("$mainfont$"),
 $endif$
+$if(title-fontfill)$
+  title-fontfill: $title-fontfill$,
+$endif$
 $if(title-align)$
   title-align: $title-align$,
 $endif$
-$if(title-size)$
-  title-size: $title-size$,
+$if(title-fontsize)$
+  title-fontsize: $title-fontsize$,
 $endif$
 $if(title-inset)$
   title-inset: $title-inset$,
@@ -119,6 +125,15 @@ $endif$
 
 $if(section-numbering)$
   sectionnumbering: "$section-numbering$",
+$endif$
+$if(heading-font)$
+  heading-font: ("$heading-font$"),
+$endif$
+$if(heading-fontfill)$
+  heading-fontfill: $heading-fontfill$,
+$endif$
+$if(heading-fontsize)$
+  heading-fontsize: $heading-fontsize$,
 $endif$
 
 // Table of contents
@@ -142,6 +157,15 @@ $endif$
 $if(footer)$
   footer: [$footer$],
 $endif$
+$if(footer-fontfill)$
+  footer-fontfill: $footer-fontfill$,
+$endif$
+$if(footer-fontsize)$
+  footer-fontsize: $footer-fontsize$,
+$endif$
+$if(footer-align)$
+  footer-align: [$footer-align$],
+$endif$
 $if(footer-descent)$
   footer-descent: $footer-descent$,
 $endif$
@@ -158,9 +182,14 @@ $if(list-body-indent)$
   list-body-indent: $list-body-indent$,
 $endif$
 
+// Bibliography
+
 $if(bibliography)$
   bibliography-file: "$bibliography$",
 $endif$
 
+$if(blockquote-fontsize)$
+  blockquote-fontsize: $blockquote-fontsize$
+$endif$
 
 )

@@ -1,6 +1,12 @@
 // 2023-10-09: #fa-icon("fa-info") is not working, so we'll eval "#fa-info()" instead
 // 2024-01-29: copied from quarto-cli and revised to use em units
-#let callout(body: [], title: "Callout", background_color: rgb("#dddddd"), icon: none, icon_color: black) = {
+#let callout(
+  body: [],
+  title: "Callout",
+  background_color: rgb("#dddddd"),
+  icon: none,
+  icon_color: black
+) = {
   block(
     breakable: false,
     fill: background_color,
@@ -25,6 +31,50 @@
         block(fill: white, width: 100%, inset: 0.8em, body)))
 }
 
+#let ifnone(x, default) = {
+  if x == none {
+    return default
+  }
+  
+  if x == () {
+    return default
+  }
+  
+  x
+}
+
+
+#let ifarray(x, default) = {
+  if type(x) == array {
+    return default
+  }
+  
+  x
+}
+
+#let running-text-block(
+  font: (),
+  fontsize: 10pt,
+  fontfill: luma(0%),
+  width: 100%,
+  inset: 20pt,
+  text-align: left,
+  content
+) = {
+  if content == none {
+    return none
+  }
+
+  align(
+    text-align,
+    block(
+      width: width,
+      inset: inset,
+      [#text(fill: fontfill, size: fontsize, font: font, content, )]
+    )
+  )
+}
+
 #let typstdoc(
 
   // Document attributes
@@ -34,6 +84,7 @@
   keywords: (),
   date: auto,
   abstract: none,
+  abstract-label: "Abstract",
   lang: "en",
   region: "US",
   
@@ -55,7 +106,7 @@
   fontweight: "regular",
   fontfill: luma(0%),
   slashed-zero: false,
-  monofont: ("Courier"),
+  monofont: (), // ("Courier"),
   
   // Body text typography
 
@@ -69,14 +120,18 @@
   // Title typography
 
   title-font: (),
+  title-fontfill: (),
   title-align: center,
-  title-size: 1.5em,
+  title-fontsize: 1.5em,
   title-inset: 2em,
   title-weight: "bold",
   
   // Section numbering
 
   sectionnumbering: none,
+  heading-font: (),
+  heading-fontfill: none,
+  heading-fontsize: (),
 
   // Table of contents
 
@@ -88,7 +143,12 @@
 
   header: none,
   header-ascent: 30%,
+  
   footer: none,
+  footer-font: (),
+  footer-fontfill: (),
+  footer-fontsize: (),
+  footer-align: left,
   footer-descent: 30%,
   
   // List numbering and indent
@@ -100,6 +160,8 @@
   // Bibliography
   
   bibliography-file: none,
+  
+  // blockquote-fontsize: 11pt,
   
   doc,
 ) = {
@@ -129,9 +191,20 @@
     number-align: page-number-align,
     header: header,
     header-ascent: header-ascent,
-    footer: footer,
+    
+    // Set footer defaults from other variables
+    footer: running-text-block(
+      font: ifnone(footer-font, font),
+      fontfill: ifarray(footer-fontfill, fontfill),
+      // as-default-fill(footer-fontfill, fontfill),
+      text-align: ifnone(footer-align, title-align),
+      fontsize: ifnone(footer-fontsize, fontsize),
+      footer),
+    // footer: footer,
     footer-descent: footer-descent)
 
+  // Set overall text defaults
+  
   set text(
     lang: lang,
     region: region,
@@ -141,10 +214,18 @@
     fill: fontfill,
     slashed-zero: slashed-zero)
   
-  show raw: set text(font: monofont)
+  // Set font for inline code and blocks
+  show raw: set text(font: (monofont, "Courier"))
     
+  // Configure heading typography
   set heading(
     numbering: sectionnumbering)
+    
+  show heading: set text(
+    size: ifnone(heading-fontsize, fontsize),
+    font: ifnone(heading-font, font),
+    fill: ifnone(heading-fontfill, fontfill)
+  )
     
   // Display the bibliography, if supplied
   if bibliography-file != none {
@@ -155,35 +236,31 @@
 
   if title != none {
     align(title-align)[#block(inset: title-inset)[
-      #text(font: title-font, weight: title-weight, size: title-size)[#title]
+      #text(
+        font: ifnone(title-font, font),
+        fill: ifnone(title-fontfill, fontfill),
+        weight: title-weight,
+        size: title-fontsize
+      )[#title]
     ]]
   }
 
+
   if authors != none {
-    let count = authors.len()
-    let ncols = calc.min(count, 3)
-    grid(
-      columns: (1fr,) * ncols,
-      row-gutter: 1.5em,
-      ..authors.map(author =>
-          align(title-align)[
-            #author.name \
-            #author.affiliation \
-            #author.email
-          ]
-      )
-    )
+    align(title-align)[#block(inset: title-inset)[
+      #text()[#author-string]
+    ]]
   }
 
   if date != none and date != auto {
-    align(title-align)[#block(inset: title-size * 0.5)[
+    align(title-align)[#block(inset: title-inset)[
       #date
     ]]
   }
 
   if abstract != none {
     block(inset: title-inset)[
-    #text(weight: "semibold")[Abstract] #h(title-size * 0.5) #abstract
+      #text(weight: "semibold")[#abstract-label] #h(1em) #abstract
     ]
   }
   

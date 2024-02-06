@@ -1,36 +1,44 @@
 ---
+execute: 
+  echo: true
 format:
   typstdoc-typst:
     title: "Typst Document Title"
-    footer: "Running Footer"
+    abstract: |
+      This is a longer abstract. It is included to illustrate the abstract
+      formatting and the custom abstract label.
+    abstract-label: "Summary"
+    authors:
+      - "Author 1"
+      - "Author 2"
     papersize: "us-letter"
     columns: 2
     margin:
       x: 1in
       top: 1in
       bottom: 1.25in
-    authors: "Author Name"
     mainfont: "Roboto"
-    monofont: "Roboto Mono"
     fontsize: 1em
-    fontfill: blue
+    heading-fontsize: 1.3em
+    heading-fontfill: blue
+    monofont: "Roboto Mono"
+    title-font: "Roboto"
+    title-fontfill: blue
     title-align: left
-    title-size: 2.5em
+    title-fontsize: 2.4em
     title-inset: 0.25em
-    page-numbering: "1/1"
-    page-number-align: right + bottom
+    footer: "This is a custom footer"
+    footer-fontfill: blue
     list-indent: 1em
 ---
 
-# Heading 1
+# About this template
 
-## Heading 2
+This template shows the use of the typography parameters `fontsize`, `heading-fontsize`, `title-fontsize` `heading-fontfill`, `title-fontfill`, and `page-number-align` parameters. The fonts are also customized using `mainfont`, `monofont`, and `title-font`. A custom footer is also illustrated with this template.
 
-This template shows the use of the `fontfill`, `page-numbering`, `flipped`, and `page-number-align` parameters.
+## Examples
 
-## More Information
-
-You can learn more about creating custom Typst templates here: 
+Etiam ullamcorper neque sed sapien viverra consequat vel sit amet ipsum. Vivamus faucibus vestibulum lacus, in sollicitudin ipsum ullamcorper ac. Proin et rutrum nibh. Donec id justo in elit sollicitudin fermentum et at sem.
 
 <https://quarto.org/docs/prerelease/1.4/typst.html#custom-formats>
 
@@ -42,35 +50,23 @@ You can learn more about creating custom Typst templates here:
 - Remove icon with 'icon=false'
 :::
 
+Aenean pretium dui libero, vitae consectetur quam rhoncus ut. Nullam turpis eros, lobortis id mi eget, euismod aliquet ligula.
+
 ### Heading 3
 
-Etiam ullamcorper neque sed sapien viverra consequat vel sit amet ipsum. Vivamus faucibus vestibulum lacus, in sollicitudin ipsum ullamcorper ac. Proin et rutrum nibh. Donec id justo in elit sollicitudin fermentum et at sem.
-
+Etiam porta, ligula quis dignissim gravida, ante dolor maximus tortor, at aliquet nibh risus vitae nunc.
+ 
 1. Etiam sed nibh at elit euismod suscipit.
 2. Nulla quis leo ullamcorper, mollis mauris vel, tristique sapien.
 3. Nulla facilisi.
 
 #### Heading 4
 
-Aenean pretium dui libero, vitae consectetur quam rhoncus ut. Nullam turpis eros, lobortis id mi eget, euismod aliquet ligula. Integer non diam vitae ipsum faucibus cursus. Donec nisl quam, faucibus a sapien sed, tincidunt condimentum eros. Etiam porta, ligula quis dignissim gravida, ante dolor maximus tortor, at aliquet nibh risus vitae nunc.
-
 Curabitur ut tempor libero, at luctus libero. Duis nec arcu non arcu vulputate fermentum in nec augue. In leo tortor, aliquet eget massa nec, aliquam tempor diam.
 
 - Duis tincidunt viverra tortor, sit amet dictum ante iaculis in. Aliquam ut neque vitae eros aliquam luctus. Proin leo nisl, interdum eget ipsum eu, lacinia vestibulum ligula.
 - Phasellus ac orci vel ex hendrerit pulvinar. Fusce tincidunt non augue sit amet pulvinar. Sed fringilla nisi mi, at lacinia eros tristique eget.
 
-Duis molestie eleifend velit vitae gravida. Aenean eget finibus lectus. Praesent gravida dolor eu justo rhoncus, nec ultrices urna convallis. Fusce id varius ipsum, sit amet tempus ante. Morbi sit amet lobortis ex, id efficitur ex.
+Duis molestie eleifend velit vitae gravida. Aenean eget finibus lectus. Praesent gravida dolor eu justo rhoncus, nec ultrices urna convallis.
 
 >Praesent vestibulum libero quis lacus mollis finibus. Aenean sed tortor ut urna faucibus sodales.
-
-Donec facilisis rutrum commodo. Vivamus mattis volutpat erat, ac vestibulum magna consectetur et. Quisque scelerisque metus in tellus efficitur, ac efficitur dui volutpat. Nam ut dui consequat velit pulvinar blandit venenatis sed elit. Ut consequat tincidunt lorem ut fringilla. Sed luctus, diam vel convallis gravida, enim turpis condimentum est, quis porta turpis libero ac ipsum.
-
-Suspendisse magna magna, viverra luctus lectus eget, ultricies lobortis lacus. Integer elementum odio vel dignissim commodo. Ut ut dignissim eros. Nam ut arcu eleifend, hendrerit nisi eu, dictum nisi. Suspendisse id tellus consectetur, malesuada tortor in, faucibus arcu. Sed sagittis ligula vitae ex posuere vulputate. Fusce sit amet sagittis nulla. Phasellus convallis eros mauris, eu commodo magna pretium eu. Sed at leo condimentum, suscipit sapien sit amet, semper erat.
-
-::: {.block fill="luma(230)" inset="1.5em" radius="0.5em"}
-
-This is a block with gray background and slightly rounded corners.
-
-:::
-
-Sed finibus rhoncus elit, eu dictum augue suscipit et. Nulla eu erat vitae est egestas euismod. Aliquam erat volutpat. Nulla mattis id nisl eu euismod. Morbi sed rutrum ipsum. Pellentesque facilisis gravida felis, ac feugiat lectus commodo sit amet. Sed diam nisl, tempus eu risus ac, hendrerit tempor justo. Nullam mollis ligula ac vestibulum aliquet.
