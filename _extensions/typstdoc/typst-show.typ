@@ -47,7 +47,7 @@ $if(gutter)$
   gutter: $gutter$,
 $endif$
 $if(fill)$
-  fill: $fill$,
+  fill: "$fill$",
 $endif$
 $if(page-numbering)$
   page-numbering: "$page-numbering$",
@@ -71,7 +71,7 @@ $if(fontweight)$
   fontweight: $fontweight$,
 $endif$
 $if(fontfill)$
-  fontfill: $fontfill$,
+  fontfill: "$fontfill$",
 $endif$
 $if(slashed-zero)$
   slashed-zero: $slashed-zero$,
@@ -106,7 +106,7 @@ $else$
   title-font: ("$mainfont$"),
 $endif$
 $if(title-fontfill)$
-  title-fontfill: $title-fontfill$,
+  title-fontfill: "$title-fontfill$",
 $endif$
 $if(title-align)$
   title-align: $title-align$,
@@ -130,7 +130,7 @@ $if(heading-font)$
   heading-font: ("$heading-font$"),
 $endif$
 $if(heading-fontfill)$
-  heading-fontfill: $heading-fontfill$,
+  heading-fontfill: "$heading-fontfill$",
 $endif$
 $if(heading-fontsize)$
   heading-fontsize: $heading-fontsize$,
@@ -152,7 +152,7 @@ $if(header)$
   header: [$header$],
 $endif$
 $if(header-fontfill)$
-  header-fontfill: $header-fontfill$,
+  header-fontfill: "$header-fontfill$",
 $endif$
 $if(header-fontsize)$
   header-fontsize: $header-fontsize$,
@@ -167,7 +167,7 @@ $if(footer)$
   footer: [$footer$],
 $endif$
 $if(footer-fontfill)$
-  footer-fontfill: $footer-fontfill$,
+  footer-fontfill: "$footer-fontfill$",
 $endif$
 $if(footer-fontsize)$
   footer-fontsize: $footer-fontsize$,

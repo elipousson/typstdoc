@@ -43,19 +43,33 @@
   x
 }
 
-
-#let ifarray(x, default) = {
+#let rgb-color(x, default) = {
   if type(x) == array {
-    return default
+    x = default
   }
   
-  x
+  if type(x) == color {
+    return x
+  }
+
+  if x in ("black", "gray", "silver", "white",
+              "navy", "blue", "aqua", "teal",
+              "eastern", "purple", "maroon", "red",
+              "orange", "yellow", "olive", "green", "lime") {
+    return eval(x)
+  }
+
+  if x.starts-with("\#") {
+    x = x.replace("\#", "")
+  }
+
+  rgb(x)
 }
 
 #let running-text-block(
   font: (),
   fontsize: 10pt,
-  fontfill: luma(0%),
+  fontfill: "black",
   width: 100%,
   inset: 20pt,
   text-align: left,
@@ -104,7 +118,7 @@
   font: (),
   fontsize: 11pt,
   fontweight: "regular",
-  fontfill: luma(0%),
+  fontfill: "black",
   slashed-zero: false,
   monofont: ("Courier"),
   
@@ -123,15 +137,15 @@
   title-fontsize: 1.5em,
   title-weight: "bold",
   title-fontfill: (),
-  title-align: center,
-  title-inset: 2em,
+  title-align: left,
+  title-inset: 0pt,
   
   // Section numbering
 
   sectionnumbering: none,
   heading-font: (),
   heading-fontsize: (),
-  heading-fontfill: none,
+  heading-fontfill: (),
 
   // Table of contents
 
@@ -178,7 +192,18 @@
   } else {
     names.join(", ", last: ", and ")
   }
-
+  
+  if fill != none {
+    fill = rgb-color(fill, "white")
+  }
+  
+  // Set font fill colors with default
+  fontfill = rgb-color(fontfill, "black")
+  header-fontfill = rgb-color(header-fontfill, fontfill)
+  footer-fontfill = rgb-color(footer-fontfill, fontfill)
+  title-fontfill = rgb-color(title-fontfill, fontfill)
+  heading-fontfill = rgb-color(heading-fontfill, fontfill)
+  
   // Set document metadata
   set document(
     title: title,
@@ -198,17 +223,17 @@
     header: running-text-block(
       font: ifnone(header-font, font),
       fontsize: ifnone(header-fontsize, fontsize),
-      fontfill: ifarray(header-fontfill, fontfill),
-      text-align: ifnone(header-align, title-align),
-      footer),
+      fontfill: header-fontfill,
+      text-align: header-align,
+      header),
     header-ascent: header-ascent,
     
     // Set footer defaults from other variables
     footer: running-text-block(
       font: ifnone(footer-font, font),
       fontsize: ifnone(footer-fontsize, fontsize),
-      fontfill: ifarray(footer-fontfill, fontfill),
-      text-align: ifnone(footer-align, title-align),
+      fontfill: footer-fontfill,
+      text-align: footer-align,
       footer),
     footer-descent: footer-descent)
 
@@ -233,7 +258,7 @@
   show heading: set text(
     font: ifnone(heading-font, font),
     size: ifnone(heading-fontsize, fontsize),
-    fill: ifnone(heading-fontfill, fontfill)
+    fill: heading-fontfill
   )
     
   // Display the bibliography, if supplied
@@ -249,7 +274,7 @@
         font: ifnone(title-font, font),
         weight: title-weight,
         size: title-fontsize,
-        fill: ifnone(title-fontfill, fontfill)
+        fill: title-fontfill
       )[#title]
     ]]
   }
@@ -269,7 +294,7 @@
 
   if abstract != none {
     block(inset: title-inset)[
-      #text(weight: "semibold")[#abstract-label] #h(1em) #abstract
+      #text(weight: "semibold")[#abstract-label] #h(0.6em) #abstract
     ]
   }
   
