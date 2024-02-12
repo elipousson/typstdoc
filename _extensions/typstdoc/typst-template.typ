@@ -5,7 +5,7 @@
   title: "Callout",
   background_color: rgb("#dddddd"),
   icon: none,
-  icon_color: black
+  icon_color: black,
 ) = {
   block(
     breakable: false,
@@ -20,26 +20,25 @@
       block(
         fill: background_color,
         width: 100%,
-        inset: 0.25em)[#text(
-          icon_color,
-          baseline: -0.1em,
-          size: 0.8em,
-          weight: 700)[#icon] #title]) +
-      block(
         inset: 0.25em,
-        width: 100%,
-        block(fill: white, width: 100%, inset: 0.8em, body)))
+      )[#text(icon_color, baseline: -0.1em, size: 0.8em, weight: 700)[#icon] #title],
+    ) + block(
+      inset: 0.25em,
+      width: 100%,
+      block(fill: white, width: 100%, inset: 0.8em, body),
+    ),
+  )
 }
 
 #let ifnone(x, default) = {
   if x == none {
     return default
   }
-  
+
   if x == () {
     return default
   }
-  
+
   x
 }
 
@@ -47,7 +46,7 @@
   if type(x) == array {
     x = default
   }
-  
+
   if type(x) == color {
     return x
   }
@@ -73,20 +72,17 @@
   width: 100%,
   inset: 20pt,
   text-align: left,
-  content
+  content,
 ) = {
   if content == none {
     return none
   }
 
-  align(
-    text-align,
-    block(
-      width: width,
-      inset: inset,
-      [#text(fill: fontfill, size: fontsize, font: font, content, )]
-    )
-  )
+  align(text-align, block(
+    width: width,
+    inset: inset,
+    [#text(fill: fontfill, size: fontsize, font: font, content)],
+  ))
 }
 
 #let typstdoc(
@@ -192,23 +188,20 @@
   } else {
     names.join(", ", last: ", and ")
   }
-  
+
   if fill != none {
     fill = rgb-color(fill, "white")
   }
-  
+
   // Set font fill colors with default
   fontfill = rgb-color(fontfill, "black")
   header-fontfill = rgb-color(header-fontfill, fontfill)
   footer-fontfill = rgb-color(footer-fontfill, fontfill)
   title-fontfill = rgb-color(title-fontfill, fontfill)
   heading-fontfill = rgb-color(heading-fontfill, fontfill)
-  
+
   // Set document metadata
-  set document(
-    title: title,
-    author: names,
-    date: date)
+  set document(title: title, author: names, date: date)
 
   // Set page layout
   set page(
@@ -225,7 +218,8 @@
       fontsize: ifnone(header-fontsize, fontsize),
       fontfill: header-fontfill,
       text-align: header-align,
-      header),
+      header,
+    ),
     header-ascent: header-ascent,
     
     // Set footer defaults from other variables
@@ -234,11 +228,13 @@
       fontsize: ifnone(footer-fontsize, fontsize),
       fontfill: footer-fontfill,
       text-align: footer-align,
-      footer),
-    footer-descent: footer-descent)
+      footer,
+    ),
+    footer-descent: footer-descent,
+  )
 
   // Set overall text defaults
-  
+
   set text(
     lang: lang,
     region: region,
@@ -246,21 +242,21 @@
     weight: fontweight,
     size: fontsize,
     fill: fontfill,
-    slashed-zero: slashed-zero)
-  
+    slashed-zero: slashed-zero,
+  )
+
   // Set font for inline code and blocks
   show raw: set text(font: monofont)
-    
+
   // Configure heading typography
-  set heading(
-    numbering: sectionnumbering)
-    
+  set heading(numbering: sectionnumbering)
+
   show heading: set text(
     font: ifnone(heading-font, font),
     size: ifnone(heading-fontsize, fontsize),
-    fill: heading-fontfill
+    fill: heading-fontfill,
   )
-    
+
   // Display the bibliography, if supplied
   if bibliography-file != none {
     show bibliography: set text(fontsize * 0.8)
@@ -270,26 +266,25 @@
 
   if title != none {
     align(title-align)[#block(inset: title-inset)[
-      #text(
-        font: ifnone(title-font, font),
-        weight: title-weight,
-        size: title-fontsize,
-        fill: title-fontfill
-      )[#title]
-    ]]
+        #text(
+          font: ifnone(title-font, font),
+          weight: title-weight,
+          size: title-fontsize,
+          fill: title-fontfill,
+        )[#title]
+      ]]
   }
-
 
   if authors != none {
     align(title-align)[#block(inset: title-inset)[
-      #text()[#author-string]
-    ]]
+        #text()[#author-string]
+      ]]
   }
 
   if date != none and date != auto {
     align(title-align)[#block(inset: title-inset)[
-      #date
-    ]]
+        #date
+      ]]
   }
 
   if abstract != none {
@@ -297,20 +292,21 @@
       #text(weight: "semibold")[#abstract-label] #h(0.6em) #abstract
     ]
   }
-  
+
   // Configure paragraph properties.
-    
+
   set par(
     justify: justify,
     first-line-indent: first-line-indent,
     hanging-indent: hanging-indent,
     linebreaks: linebreaks,
-    leading: leading)
+    leading: leading,
+  )
 
   show par: set block(spacing: spacing)
 
   // Configure table of contents
-  
+
   if toc {
     let title = if toc_title == none {
       auto
@@ -318,26 +314,22 @@
       toc_title
     }
     block(above: 0em, below: 2em)[
-    #outline(
-      title: toc_title,
-      depth: toc_depth
-    );
+      #outline(title: toc_title, depth: toc_depth);
     ]
   }
 
   // Configure lists
-  
+
   set enum(
     indent: list-indent,
     numbering: list-numbering,
-    body-indent: list-body-indent)
+    body-indent: list-body-indent,
+  )
 
-  set list(
-    indent: list-indent,
-    body-indent: list-body-indent)
-  
+  set list(indent: list-indent, body-indent: list-body-indent)
+
   // Configure columns
-  
+
   if cols == 1 {
     doc
   } else {

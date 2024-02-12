@@ -34,7 +34,7 @@ format:
 
 # About this template
 
-This template shows the use of the typography parameters `fontsize`, `heading-fontsize`, `title-fontsize` `heading-fontfill`, `title-fontfill`, and `page-number-align` parameters. The fonts are also customized using `mainfont`, `monofont`, and `title-font`. A custom footer is also illustrated with this template.
+This template shows the use of the typography parameters `fontsize`, `heading-fontsize`, `title-fontsize` `heading-fontfill`, `title-fontfill`, and `page-number-align` parameters. The fonts are also customized using `mainfont`, `monofont`, and `title-font`. A basic custom footer is also shown with this template.
 
 ## Examples
 
