@@ -70,7 +70,6 @@ format:
     leading: 12pt
     heading-font: "Roboto Narrow"
     heading-fontfill: blue
-    hex-fill: true
     monofont: "Roboto Code"
 ---
 ```
