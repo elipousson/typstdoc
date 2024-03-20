@@ -9,39 +9,45 @@ quarto use template elipousson/typstdoc
 This will install the format extension and create an example qmd file
 that you can use as a starting place for your document.
 
+To skip the template (which is only just intendended as an example):
+
+```bash
+quarto add elipousson/typstdoc
+```
+
 ## Using typstdoc
 
-This format extends the existing typst template with more complete coverage of the possible parameters for [page](https://typst.app/docs/reference/layout/page/), [text](https://typst.app/docs/reference/text/text/), [par](https://typst.app/docs/reference/model/par/).
+This format extends the existing typst template with more complete coverage of settable parameters for the `page`, `text`, and `par` Typst elements:
 
-Supported parameters for these functions include:
-
-- page
-  - paper
-  - flipped
-  - margin
-  - fill
-  - numbering (set by page-numbering)
-  - number-align (set by page-number-align)
-  - header
-  - header-ascent
-  - footer
-  - footer-descent
-- text
-  - font
-  - fill (set by fontfill)
-  - weight (set by fontweight)
-  - spacing
-  - slashed-zero
-- par
-  - justify
-  - first-line-indent
-  - hanging-indent
-  - linebreaks
-  - leading
+- [`page`](https://typst.app/docs/reference/layout/page/)
+  - `paper` (set by `papersize`)
+  - `flipped`
+  - `margin`
+  - `fill`
+  - `numbering` (set by `page-numbering`)
+  - `number-align` (set by `page-number-align`)
+  - `header`
+  - `header-ascent`
+  - `footer`
+  - `footer-descent`
+- [`text`](https://typst.app/docs/reference/text/text/)
+  - `font` (set by `mainfont`)
+  - `fill` (set by `fontfill`)
+  - `weight` (set by `fontweight`)
+  - `spacing` (set as a default property of `par` blocks)
+  - `slashed-zero`
+- [`par`](https://typst.app/docs/reference/model/par/)
+  - `justify`
+  - `first-line-indent`
+  - `hanging-indent`
+  - `linebreaks`
+  - `leading`
   
 These additional parameters allow more fine-grained control over the typography and appearance of the document. You can set the font, size, and fill for the headings (using `heading-font`, `heading-fontfill`, etc.) and font, weight, and size for the title (using `title-font`, `title-fontweight`, etc.).
 
-You can custom the color of the main body, heading, title, footer, and header text using the fill parameters.  By default, these elements all inherit the font fill.
+You can custom the color of the main body, heading, title, footer, and header text using the fill parameters.  By default, these elements all inherit the main font fill.
+
+This format includes experimental support for a listing of figures (set `lof: true`) which mostly works and a listing of tables (set `lot: true`) which mostly doesn't work.
 
 This format supports hex color strings (with or without a hash symbol at the start of the string) and standard Typst color names (see [color](https://typst.app/docs/reference/visualize/color/) for documentation). Both quoted and unquoted fill parameters are allowed as the following example shows:
 

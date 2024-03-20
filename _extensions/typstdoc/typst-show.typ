@@ -142,9 +142,30 @@ $if(toc)$
   toc: $toc$,
 $endif$
 $if(toc-title)$
-  toc_title: [$toc-title$],
+  toc-title: [$toc-title$],
 $endif$
-  toc_depth: $toc-depth$,
+  toc-depth: $toc-depth$,
+$if(toc-indent)$
+  toc-indent: $toc-indent$,
+$endif$
+
+// List of figures
+
+$if(lof)$
+  lof: $lof$,
+$endif$
+$if(lof-title)$
+  lof_title: [$lof-title$],
+$endif$
+
+// List of tables
+
+$if(lot)$
+  lot: $lot$,
+$endif$
+$if(lot-title)$
+  lot_title: [$lot-title$],
+$endif$
 
 // Header and footer
 
@@ -190,6 +211,13 @@ $endif$
 $if(list-body-indent)$
   list-body-indent: $list-body-indent$,
 $endif$
+// List tight and list spacing
+// $if(list-tight)$
+//   list-tight: $list-tight$,
+// $endif$
+// $if(list-spacing)$
+//   list-spacing: $list-spacing$,
+// $endif$
 
 // Bibliography
 

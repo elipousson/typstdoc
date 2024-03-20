@@ -111,12 +111,12 @@
   
   // Typography
 
-  font: (),
+  font: ("Roboto", "Arial", ),
   fontsize: 11pt,
   fontweight: "regular",
   fontfill: "black",
   slashed-zero: false,
-  monofont: ("Courier"),
+  monofont: ("Roboto Mono", "Courier", ),
   
   // Body text typography
 
@@ -140,14 +140,21 @@
 
   sectionnumbering: none,
   heading-font: (),
-  heading-fontsize: (),
+  heading-fontsize: 1.2em,
   heading-fontfill: (),
 
   // Table of contents
 
   toc: false,
-  toc_title: none,
-  toc_depth: none,
+  toc-title: none,
+  toc-depth: none,
+  toc-indent: none,
+  
+  lof: false,
+  lof_title: "Figures",
+  
+  lot: false,
+  lot_title: "Tables",
   
   // Header and footer
 
@@ -170,6 +177,8 @@
   list-numbering: "1.",
   list-indent: 0pt,
   list-body-indent: 0.5em,
+  // list-tight: false,
+  // list-spacing: auto,
   
   // Bibliography
   
@@ -234,7 +243,7 @@
   )
 
   // Set overall text defaults
-
+  
   set text(
     lang: lang,
     region: region,
@@ -304,17 +313,43 @@
   )
 
   show par: set block(spacing: spacing)
-
+  
   // Configure table of contents
 
   if toc {
-    let title = if toc_title == none {
+    let toc-title = if toc-title == none {
       auto
     } else {
-      toc_title
+      toc-title
     }
-    block(above: 0em, below: 2em)[
-      #outline(title: toc_title, depth: toc_depth);
+    block(above: 1.5em, below: 3em)[
+      #outline(title: toc-title, indent: toc-indent, depth: toc-depth);
+    ]
+  }
+  
+  // List of figures
+  if lof {
+     let lof_title = if lof_title == none {
+        auto
+      } else {
+        lof_title
+      }
+      
+    block(above: 1em, below: 2em)[
+      #outline(title: lof_title, target: figure.where(kind: "quarto-float-fig"))
+    ]
+  }
+  
+  // List of tables
+  if lot {
+    let lot_title = if lot_title == none {
+      auto
+    } else {
+      lot_title
+    }
+    
+    block(above: 1em, below: 2em)[
+      #outline(title: lot_title, target: figure.where(kind: "quarto-float-tbl"))
     ]
   }
 
@@ -326,7 +361,12 @@
     body-indent: list-body-indent,
   )
 
-  set list(indent: list-indent, body-indent: list-body-indent)
+  set list(
+    indent: list-indent,
+    // tight: list-tight,
+    // spacing: list-spacing,
+    body-indent: list-body-indent,
+  )
 
   // Configure columns
 
