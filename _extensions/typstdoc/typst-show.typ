@@ -155,7 +155,7 @@ $if(lof)$
   lof: $lof$,
 $endif$
 $if(lof-title)$
-  lof_title: [$lof-title$],
+  lof-title: [$lof-title$],
 $endif$
 
 // List of tables
@@ -164,7 +164,7 @@ $if(lot)$
   lot: $lot$,
 $endif$
 $if(lot-title)$
-  lot_title: [$lot-title$],
+  lot-title: [$lot-title$],
 $endif$
 
 // Header and footer

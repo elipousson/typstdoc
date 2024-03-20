@@ -151,10 +151,10 @@
   toc-indent: none,
   
   lof: false,
-  lof_title: "Figures",
+  lof-title: "Figures",
   
   lot: false,
-  lot_title: "Tables",
+  lot-title: "Tables",
   
   // Header and footer
 
@@ -329,27 +329,27 @@
   
   // List of figures
   if lof {
-     let lof_title = if lof_title == none {
+     let lof-title = if lof-title == none {
         auto
       } else {
         lof_title
       }
       
     block(above: 1em, below: 2em)[
-      #outline(title: lof_title, target: figure.where(kind: "quarto-float-fig"))
+      #outline(title: lof-title, target: figure.where(kind: "quarto-float-fig"))
     ]
   }
   
   // List of tables
   if lot {
-    let lot_title = if lot_title == none {
+    let lot-title = if lot-title == none {
       auto
     } else {
-      lot_title
+      lot-title
     }
     
     block(above: 1em, below: 2em)[
-      #outline(title: lot_title, target: figure.where(kind: "quarto-float-tbl"))
+      #outline(title: lot-title, target: figure.where(kind: "quarto-float-tbl"))
     ]
   }
 
