@@ -92,9 +92,9 @@
   title: none,
   authors: (),
   keywords: (),
-  date: auto,
+  date: none,
   abstract: none,
-  abstract-label: "Abstract",
+  abstract-label: none,
   lang: "en",
   region: "US",
   
@@ -146,15 +146,15 @@
   // Table of contents
 
   toc: false,
-  toc-title: none,
-  toc-depth: none,
-  toc-indent: none,
+  toc_title: none,
+  toc_depth: none,
+  toc_indent: 1.5em,
   
   lof: false,
-  lof-title: "Figures",
+  lof_title: "Figures",
   
   lot: false,
-  lot-title: "Tables",
+  lot_title: "Tables",
   
   // Header and footer
 
@@ -210,7 +210,7 @@
   heading-fontfill = rgb-color(heading-fontfill, fontfill)
 
   // Set document metadata
-  set document(title: title, author: names, date: date)
+  set document(title: title, author: names, keywords: keywords,)
 
   // Set page layout
   set page(
@@ -290,13 +290,17 @@
       ]]
   }
 
-  if date != none and date != auto {
+  if date != none {
     align(title-align)[#block(inset: title-inset)[
         #date
       ]]
   }
 
   if abstract != none {
+    if abstract-label == none {
+      abstract-label = "$labels.abstract$"
+    }
+    
     block(inset: title-inset)[
       #text(weight: "semibold")[#abstract-label] #h(0.6em) #abstract
     ]
@@ -317,39 +321,39 @@
   // Configure table of contents
 
   if toc {
-    let toc-title = if toc-title == none {
+    let toc_title = if toc_title == none {
       auto
     } else {
-      toc-title
+      toc_title
     }
     block(above: 1.5em, below: 3em)[
-      #outline(title: toc-title, indent: toc-indent, depth: toc-depth);
+      #outline(title: toc_title, indent: toc_indent, depth: toc_depth);
     ]
   }
   
   // List of figures
   if lof {
-     let lof-title = if lof-title == none {
+     let lof_title = if lof_title == none {
         auto
       } else {
         lof_title
       }
       
     block(above: 1em, below: 2em)[
-      #outline(title: lof-title, target: figure.where(kind: "quarto-float-fig"))
+      #outline(title: lof_title, target: figure.where(kind: "quarto-float-fig"))
     ]
   }
   
   // List of tables
   if lot {
-    let lot-title = if lot-title == none {
+    let lot_title = if lot_title == none {
       auto
     } else {
-      lot-title
+      lot_title
     }
     
     block(above: 1em, below: 2em)[
-      #outline(title: lot-title, target: figure.where(kind: "quarto-float-tbl"))
+      #outline(title: lot_title, target: figure.where(kind: "quarto-float-tbl"))
     ]
   }
 
@@ -376,3 +380,8 @@
     columns(cols, gutter: (gutter), doc)
   }
 }
+
+#set table(
+  inset: 6pt,
+  stroke: none
+)

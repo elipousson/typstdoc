@@ -15,8 +15,12 @@ $if(by-author)$
   $endfor$
       ),
 $endif$
+// TODO: Add support for keywords
+// $if(keywords)$
+//  keywords: ($for(keywords)$$keyword$$sep$,$endfor$),
+// $endif$
 $if(date)$
-  date: $date$,
+  date: [$date$],
 $endif$
 $if(lang)$
   lang: "$lang$",
@@ -59,7 +63,7 @@ $endif$
 // Typography
 
 $if(mainfont)$
-  font: ("$mainfont$"),
+  font: ("$mainfont$",),
 $endif$
 $if(monofont)$
   monofont: ("$monofont$"),
@@ -142,12 +146,12 @@ $if(toc)$
   toc: $toc$,
 $endif$
 $if(toc-title)$
-  toc-title: [$toc-title$],
+  toc_title: [$toc-title$],
 $endif$
-  toc-depth: $toc-depth$,
 $if(toc-indent)$
-  toc-indent: $toc-indent$,
+  toc_indent: $toc-indent$,
 $endif$
+  toc_depth: $toc-depth$,
 
 // List of figures
 
@@ -155,7 +159,7 @@ $if(lof)$
   lof: $lof$,
 $endif$
 $if(lof-title)$
-  lof-title: [$lof-title$],
+  lof_title: [$lof-title$],
 $endif$
 
 // List of tables
@@ -164,7 +168,7 @@ $if(lot)$
   lot: $lot$,
 $endif$
 $if(lot-title)$
-  lot-title: [$lot-title$],
+  lot_title: [$lot-title$],
 $endif$
 
 // Header and footer
