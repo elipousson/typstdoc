@@ -90,11 +90,12 @@
   // Document attributes
   
   title: none,
-  authors: (),
+  subtitle: none,
+  authors: none,
   keywords: (),
   date: none,
   abstract: none,
-  abstract-label: none,
+  abstract-title: none,
   lang: "en",
   region: "US",
   
@@ -136,6 +137,10 @@
   title-align: left,
   title-inset: 0pt,
   
+  // Subtitle typography
+
+  subtitle-size: 1.25em,
+
   // Section numbering
 
   sectionnumbering: none,
@@ -282,6 +287,11 @@
           fill: title-fontfill,
         )[#title]
       ]]
+      
+     if subtitle != none {
+        parbreak()
+        text(size: subtitle-size)[#subtitle]
+      }
   }
 
   if authors != none {
@@ -297,12 +307,12 @@
   }
 
   if abstract != none {
-    if abstract-label == none {
-      abstract-label = "$labels.abstract$"
+    if abstract-title == none {
+      abstract-title = "$labels.abstract$"
     }
     
     block(inset: title-inset)[
-      #text(weight: "semibold")[#abstract-label] #h(0.6em) #abstract
+      #text(weight: "semibold")[#abstract-title] #h(0.6em) #abstract
     ]
   }
 
@@ -327,7 +337,11 @@
       toc_title
     }
     block(above: 1.5em, below: 3em)[
-      #outline(title: toc_title, indent: toc_indent, depth: toc_depth);
+    #outline(
+      title: toc_title,
+      depth: toc_depth,
+      indent: toc_indent
+    );
     ]
   }
   

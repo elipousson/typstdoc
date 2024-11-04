@@ -1,8 +1,13 @@
+// https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/typst/pandoc/quarto/typst-show.typ
+
 #show: typstdoc.with(
 
 // Document attributes
 $if(title)$
-  title: "$title$",
+  title: [$title$],
+$endif$
+$if(subtitle)$
+  subtitle: [$subtitle$],
 $endif$
 $if(by-author)$
   authors: (
@@ -30,18 +35,16 @@ $if(region)$
 $endif$
 $if(abstract)$
   abstract: [$abstract$],
-$endif$
-$if(abstract-label)$
-  abstract-label: "$abstract-label$",
+  abstract-title: "$labels.abstract$",
 $endif$
 
 // Page layout, fill, and numbering
 
-$if(papersize)$
-  paper: "$papersize$",
-$endif$
 $if(margin)$
   margin: ($for(margin/pairs)$$margin.key$: $margin.value$,$endfor$),
+$endif$
+$if(papersize)$
+  paper: "$papersize$",
 $endif$
 $if(flipped)$
   flipped: $flipped$,
@@ -64,12 +67,16 @@ $endif$
 
 $if(mainfont)$
   font: ("$mainfont$",),
+$elseif(brand.typography.base.family)$
+  font: ("$brand.typography.base.family$",),
 $endif$
 $if(monofont)$
   monofont: ("$monofont$"),
 $endif$
 $if(fontsize)$
   fontsize: $fontsize$,
+$elseif(brand.typography.base.size)$
+  fontsize: $brand.typography.base.size$,
 $endif$
 $if(fontweight)$
   fontweight: $fontweight$,
