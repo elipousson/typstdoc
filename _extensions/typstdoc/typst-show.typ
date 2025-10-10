@@ -1,5 +1,4 @@
 // https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/typst/pandoc/quarto/typst-show.typ
-
 #show: doc => typstdoc(
 // Document attributes
 $if(title)$
@@ -51,6 +50,9 @@ $endif$
 $if(margin)$
   margin: ($for(margin/pairs)$$margin.key$: $margin.value$,$endfor$),
 $endif$
+$if(papersize)$
+  paper: "$papersize$",
+$endif$
 $if(flipped)$
   flipped: $flipped$,
 $endif$
@@ -73,7 +75,7 @@ $endif$
 $if(mainfont)$
   font: ("$mainfont$",),
 $elseif(brand.typography.base.family)$
-  font: $brand.typography.base.family$,
+  font: ("$brand.typography.base.family$",),
 $endif$
 $if(monofont)$
   monospace-family: ("$monofont$",),
@@ -84,6 +86,8 @@ $elseif(brand.typography.monospace.family)$
 $endif$
 $if(fontsize)$
   fontsize: $fontsize$,
+$elseif(brand.typography.base.size)$
+  fontsize: $brand.typography.base.size$,
 $endif$
 $if(fontweight)$
   fontweight: $fontweight$,
