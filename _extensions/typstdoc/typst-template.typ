@@ -341,9 +341,8 @@
     hanging-indent: hanging-indent,
     linebreaks: linebreaks,
     leading: leading,
+    spacing: spacing,
   )
-
-  show par: set block(spacing: spacing)
 
   // Configure table of contents
 
