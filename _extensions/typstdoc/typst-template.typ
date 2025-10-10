@@ -147,7 +147,7 @@
   title-fontfill: (),
   title-align: left,
   title-inset: 0pt,
-  
+
   // Subtitle typography
 
   subtitle-size: 1.25em,
@@ -286,9 +286,9 @@
     style: heading-style,
   )
 
-  show heading: set par(
-    leading: heading-line-height,
-  )
+  // show heading: set par(
+  //   leading: heading-line-height,
+  // )
 
   // Show the bibliography, if supplied
   if bibliography-file != none {
@@ -300,18 +300,18 @@
   // Show title and subtitle (if title supplied)
   if title != none {
     align(title-align)[#block(inset: title-inset)[
-        #text(
-          font: ifnone(title-font, font),
-          weight: title-weight,
-          size: title-fontsize,
-          fill: title-fontfill,
-        )[#title]
-      ]]
-      
-     if subtitle != none {
-        parbreak()
-        text(size: subtitle-size)[#subtitle]
-      }
+      #text(
+        font: ifnone(title-font, heading-family),
+        weight: title-weight,
+        size: title-fontsize,
+        fill: rgb-color(title-fontfill, heading-color),
+      )[#title]
+    ]]
+
+    if subtitle != none {
+      parbreak()
+      text(size: subtitle-size)[#subtitle]
+    }
   }
 
   // Show authors, date, and abstract
