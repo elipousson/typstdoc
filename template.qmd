@@ -1,12 +1,10 @@
 ---
-execute: 
+execute:
   echo: true
 format:
   typstdoc-typst:
     title: "Typst Document Title"
-    abstract: |
-      This is a longer abstract. It is included to illustrate the abstract
-      formatting and the custom abstract label.
+    abstract: This is a longer abstract. It is included to illustrate the abstract formatting and the custom abstract label.
     abstract-label: "Summary"
     authors:
       - "Author 1"
@@ -55,7 +53,7 @@ Aenean pretium dui libero, vitae consectetur quam rhoncus ut. Nullam turpis eros
 ### Heading 3
 
 Etiam porta, ligula quis dignissim gravida, ante dolor maximus tortor, at aliquet nibh risus vitae nunc.
- 
+
 1. Etiam sed nibh at elit euismod suscipit.
 2. Nulla quis leo ullamcorper, mollis mauris vel, tristique sapien.
 3. Nulla facilisi.

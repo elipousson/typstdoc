@@ -1,11 +1,14 @@
 // 2023-10-09: #fa-icon("fa-info") is not working, so we'll eval "#fa-info()" instead
 // 2024-01-29: copied from quarto-cli and revised to use em units
+// 2025-10-21: updated to use new body_background_color argument
+// See https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/typst/pandoc/quarto/definitions.typ
 #let callout(
   body: [],
   title: "Callout",
   background_color: rgb("#dddddd"),
   icon: none,
   icon_color: black,
+  body_background_color: white,
 ) = {
   block(
     breakable: false,
@@ -25,7 +28,7 @@
     ) + block(
       inset: 0.25em,
       width: 100%,
-      block(fill: white, width: 100%, inset: 0.8em, body),
+      block(fill: body_background_color, width: 100%, inset: 0.8em, body),
     ),
   )
 }
@@ -53,7 +56,7 @@
 
   if x in ("black", "gray", "silver", "white",
               "navy", "blue", "aqua", "teal",
-              "eastern", "purple", "maroon", "red",
+              "eastern", "purple", "fuchsia", "maroon", "red",
               "orange", "yellow", "olive", "green", "lime") {
     return eval(x)
   }
@@ -88,7 +91,7 @@
 #let typstdoc(
 
   // Document attributes
-  
+
   title: none,
   subtitle: none,
   authors: none,
@@ -98,7 +101,7 @@
   abstract-title: none,
   lang: "en",
   region: "US",
-  
+
   // Page layout, fill, and numbering
 
   paper: "us-letter",
@@ -109,7 +112,7 @@
   fill: none,
   page-numbering: "1",
   page-number-align: right + bottom,
-  
+
   // Typography
 
   font: ("Roboto", "Arial", ),
@@ -117,8 +120,8 @@
   fontweight: "regular",
   fontfill: "black",
   slashed-zero: false,
-  monofont: ("Roboto Mono", "Courier", ),
-  
+  monospace-family: ("Roboto Mono", "Courier", ),
+
   // Body text typography
 
   justify: false,
@@ -127,7 +130,15 @@
   hanging-indent: 0pt,
   leading: 0.65em,
   spacing: 1.25em,
-  
+
+  // Heading typography
+  heading-family: (),
+  heading-fontsize: 1.2em,
+  heading-color: (),
+  heading-weight: "bold",
+  heading-style: "normal",
+  heading-line-height: 0.65em,
+
   // Title typography
 
   title-font: (),
@@ -144,9 +155,6 @@
   // Section numbering
 
   sectionnumbering: none,
-  heading-font: (),
-  heading-fontsize: 1.2em,
-  heading-fontfill: (),
 
   // Table of contents
 
@@ -154,13 +162,13 @@
   toc_title: none,
   toc_depth: none,
   toc_indent: 1.5em,
-  
+
   lof: false,
   lof_title: "Figures",
-  
+
   lot: false,
   lot_title: "Tables",
-  
+
   // Header and footer
 
   header: none,
@@ -169,39 +177,45 @@
   header-fontfill: (),
   header-align: left,
   header-ascent: 30%,
-  
+
   footer: none,
   footer-font: (),
   footer-fontsize: (),
   footer-fontfill: (),
   footer-align: left,
   footer-descent: 30%,
-  
+
   // List numbering and indent
-  
+
   list-numbering: "1.",
   list-indent: 0pt,
   list-body-indent: 0.5em,
   // list-tight: false,
   // list-spacing: auto,
-  
+
   // Bibliography
-  
+
   bibliography-file: none,
-  
+
   // blockquote-fontsize: 11pt,
-  
+
   doc,
 ) = {
+  // Format author names in a list with commas and a final "and".
+  let names = none
+  let author-string = none
 
-  // Formats the author's names in a list with commas and a
-  // final "and".
-  let names = authors.map(author => author.name)
-  let author-string = if authors.len() == 2 {
-    names.join(" and ")
-  } else {
-    names.join(", ", last: ", and ")
+  if authors != none {
+    names = authors.map(author => author.name)
+    author-string = if authors.len() == 2 {
+      names.join(" and ")
+    } else {
+      names.join(", ", last: ", and ")
+    }
   }
+
+  // Set document metadata
+  set document(title: title, author: names, description: abstract, keywords: keywords)
 
   if fill != none {
     fill = rgb-color(fill, "white")
@@ -211,11 +225,8 @@
   fontfill = rgb-color(fontfill, "black")
   header-fontfill = rgb-color(header-fontfill, fontfill)
   footer-fontfill = rgb-color(footer-fontfill, fontfill)
-  title-fontfill = rgb-color(title-fontfill, fontfill)
-  heading-fontfill = rgb-color(heading-fontfill, fontfill)
 
-  // Set document metadata
-  set document(title: title, author: names, keywords: keywords,)
+  heading-color = rgb-color(heading-color, fontfill)
 
   // Set page layout
   set page(
@@ -225,7 +236,7 @@
     fill: fill,
     numbering: page-numbering,
     number-align: page-number-align,
-    
+
     // Set header defaults from other variables
     header: running-text-block(
       font: ifnone(header-font, font),
@@ -235,7 +246,7 @@
       header,
     ),
     header-ascent: header-ascent,
-    
+
     // Set footer defaults from other variables
     footer: running-text-block(
       font: ifnone(footer-font, font),
@@ -248,7 +259,7 @@
   )
 
   // Set overall text defaults
-  
+
   set text(
     lang: lang,
     region: region,
@@ -260,24 +271,33 @@
   )
 
   // Set font for inline code and blocks
-  show raw: set text(font: monofont)
+  show raw: set text(font: monospace-family)
 
   // Configure heading typography
   set heading(numbering: sectionnumbering)
 
+  heading-family = ifnone(heading-family, font)
+
   show heading: set text(
-    font: ifnone(heading-font, font),
+    font: heading-family,
     size: ifnone(heading-fontsize, fontsize),
-    fill: heading-fontfill,
+    fill: heading-color,
+    weight: heading-weight,
+    style: heading-style,
   )
 
-  // Display the bibliography, if supplied
+  show heading: set par(
+    leading: heading-line-height,
+  )
+
+  // Show the bibliography, if supplied
   if bibliography-file != none {
     show bibliography: set text(fontsize * 0.8)
     show bibliography: pad.with(x: fontsize * 0.4)
     bibliography(bibliography-file)
   }
 
+  // Show title and subtitle (if title supplied)
   if title != none {
     align(title-align)[#block(inset: title-inset)[
         #text(
@@ -294,25 +314,22 @@
       }
   }
 
+  // Show authors, date, and abstract
   if authors != none {
     align(title-align)[#block(inset: title-inset)[
-        #text()[#author-string]
-      ]]
+      #author-string
+    ]]
   }
 
   if date != none {
     align(title-align)[#block(inset: title-inset)[
-        #date
-      ]]
+      #date
+    ]]
   }
 
   if abstract != none {
-    if abstract-title == none {
-      abstract-title = "$labels.abstract$"
-    }
-    
     block(inset: title-inset)[
-      #text(weight: "semibold")[#abstract-title] #h(0.6em) #abstract
+      #text(weight: "semibold")[#abstract-title] #h(0.5em) #abstract
     ]
   }
 
@@ -327,7 +344,7 @@
   )
 
   show par: set block(spacing: spacing)
-  
+
   // Configure table of contents
 
   if toc {
@@ -337,27 +354,27 @@
       toc_title
     }
     block(above: 1.5em, below: 3em)[
-    #outline(
-      title: toc_title,
-      depth: toc_depth,
-      indent: toc_indent
-    );
+      #outline(
+        title: toc_title,
+        depth: toc_depth,
+        indent: toc_indent,
+      );
     ]
   }
-  
+
   // List of figures
   if lof {
-     let lof_title = if lof_title == none {
-        auto
-      } else {
-        lof_title
-      }
-      
+    let lof_title = if lof_title == none {
+      auto
+    } else {
+      lof_title
+    }
+
     block(above: 1em, below: 2em)[
       #outline(title: lof_title, target: figure.where(kind: "quarto-float-fig"))
     ]
   }
-  
+
   // List of tables
   if lot {
     let lot_title = if lot_title == none {
@@ -365,7 +382,7 @@
     } else {
       lot_title
     }
-    
+
     block(above: 1em, below: 2em)[
       #outline(title: lot_title, target: figure.where(kind: "quarto-float-tbl"))
     ]

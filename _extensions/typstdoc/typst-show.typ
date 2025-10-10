@@ -1,7 +1,5 @@
 // https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/typst/pandoc/quarto/typst-show.typ
-
-#show: typstdoc.with(
-
+#show: doc => typstdoc(
 // Document attributes
 $if(title)$
   title: [$title$],
@@ -35,11 +33,20 @@ $if(region)$
 $endif$
 $if(abstract)$
   abstract: [$abstract$],
+  $if(abstract-label)$
+  abstract-title: "$abstract-label$",
+  $else$
   abstract-title: "$labels.abstract$",
+  $endif$
 $endif$
 
 // Page layout, fill, and numbering
 
+// TODO: Consider removing page parameters to match main template
+// https://github.com/quarto-dev/quarto-cli/commit/75fbfd091caf62fb68bbf299db5c95c99bc60f00
+$if(papersize)$
+  paper: "$papersize$",
+$endif$
 $if(margin)$
   margin: ($for(margin/pairs)$$margin.key$: $margin.value$,$endfor$),
 $endif$
@@ -71,7 +78,11 @@ $elseif(brand.typography.base.family)$
   font: ("$brand.typography.base.family$",),
 $endif$
 $if(monofont)$
-  monofont: ("$monofont$"),
+  monospace-family: ("$monofont$",),
+$elseif(monospace-family)$
+  monospace-family: ("$monospace-family$",),
+$elseif(brand.typography.monospace.family)$
+  monospace-family: $brand.typography.monospace.family$,
 $endif$
 $if(fontsize)$
   fontsize: $fontsize$,
@@ -83,6 +94,8 @@ $if(fontweight)$
 $endif$
 $if(fontfill)$
   fontfill: "$fontfill$",
+$elseif(brand.typography.base.color)$
+  fontfill: $brand.typography.base.color$,
 $endif$
 $if(slashed-zero)$
   slashed-zero: $slashed-zero$,
@@ -112,9 +125,7 @@ $endif$
 // Title typography
 
 $if(title-font)$
-  title-font: ("$title-font$"),
-$else$
-  title-font: ("$mainfont$"),
+  title-font: ("$title-font$",),
 $endif$
 $if(title-fontfill)$
   title-fontfill: "$title-fontfill$",
@@ -137,14 +148,36 @@ $endif$
 $if(section-numbering)$
   sectionnumbering: "$section-numbering$",
 $endif$
-$if(heading-font)$
-  heading-font: ("$heading-font$"),
+
+$if(heading-family)$
+  heading-family: ("$heading-family$",),
+$elseif(brand.typography.headings.family)$
+  heading-family: $brand.typography.headings.family$,
+$elseif(heading-font)$
+  heading-family: ("$heading-font$",),
 $endif$
-$if(heading-fontfill)$
-  heading-fontfill: "$heading-fontfill$",
+$if(brand.typography.headings.weight)$
+  heading-weight: $brand.typography.headings.weight$,
+$endif$
+$if(heading-style)$
+  heading-style: "$heading-style$",
+$elseif(brand.typography.headings.style)$
+  heading-style: "$brand.typography.headings.style$",
+$endif$
+$if(heading-color)$
+  heading-color: "$heading-color$",
+$elseif(brand.typography.headings.color)$
+  heading-color: $brand.typography.headings.color$,
+$elseif(heading-fontfill)$
+  heading-color: "$heading-fontfill$",
+$endif$
+$if(brand.typography.headings.line-height)$
+  heading-line-height: $brand.typography.headings.line-height$,
 $endif$
 $if(heading-fontsize)$
   heading-fontsize: $heading-fontsize$,
+$elseif(brand.typography.headings.size)$
+  heading-fontsize: $brand.typography.headings.size$,
 $endif$
 
 // Table of contents
@@ -237,7 +270,8 @@ $if(bibliography)$
 $endif$
 
 $if(blockquote-fontsize)$
-  blockquote-fontsize: $blockquote-fontsize$
+  blockquote-fontsize: $blockquote-fontsize$,
 $endif$
 
+  doc,
 )
