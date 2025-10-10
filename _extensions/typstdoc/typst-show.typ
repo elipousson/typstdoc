@@ -44,9 +44,6 @@ $endif$
 
 // TODO: Consider removing page parameters to match main template
 // https://github.com/quarto-dev/quarto-cli/commit/75fbfd091caf62fb68bbf299db5c95c99bc60f00
-$if(papersize)$
-  paper: "$papersize$",
-$endif$
 $if(margin)$
   margin: ($for(margin/pairs)$$margin.key$: $margin.value$,$endfor$),
 $endif$
