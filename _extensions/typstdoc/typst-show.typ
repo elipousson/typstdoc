@@ -72,7 +72,7 @@ $endif$
 $if(mainfont)$
   font: ("$mainfont$",),
 $elseif(brand.typography.base.family)$
-  font: ("$brand.typography.base.family$",),
+  font: $brand.typography.base.family$,
 $endif$
 $if(monofont)$
   monospace-family: ("$monofont$",),
@@ -88,6 +88,8 @@ $elseif(brand.typography.base.size)$
 $endif$
 $if(fontweight)$
   fontweight: $fontweight$,
+$elseif(brand.typography.base.weight)$
+  fontweight: $brand.typography.base.weight$,
 $endif$
 $if(fontfill)$
   fontfill: "$fontfill$",
@@ -175,6 +177,19 @@ $if(heading-fontsize)$
   heading-fontsize: $heading-fontsize$,
 $elseif(brand.typography.headings.size)$
   heading-fontsize: $brand.typography.headings.size$,
+$endif$
+
+$if(link-family)$
+  link-family: ("$link-family$",),
+$elseif(brand.typography.link.family)$
+  link-family: $brand.typography.link.family$,
+$endif$
+$if(link-color)$
+  link-color: "$link-color$",
+$elseif(brand.typography.link.color)$
+  link-color: $brand.typography.link.color$,
+$elseif(brand.color.primary)$
+  link-color: $brand.color.primary$,
 $endif$
 
 // Table of contents

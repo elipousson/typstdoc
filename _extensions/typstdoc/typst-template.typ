@@ -25,11 +25,12 @@
         width: 100%,
         inset: 0.25em,
       )[#text(icon_color, baseline: -0.1em, size: 0.8em, weight: 700)[#icon] #title],
-    ) + block(
-      inset: 0.25em,
-      width: 100%,
-      block(fill: body_background_color, width: 100%, inset: 0.8em, body),
-    ),
+    )
+      + block(
+        inset: 0.25em,
+        width: 100%,
+        block(fill: body_background_color, width: 100%, inset: 0.8em, body),
+      ),
   )
 }
 
@@ -54,10 +55,29 @@
     return x
   }
 
-  if x in ("black", "gray", "silver", "white",
-              "navy", "blue", "aqua", "teal",
-              "eastern", "purple", "fuchsia", "maroon", "red",
-              "orange", "yellow", "olive", "green", "lime") {
+  if (
+    x
+      in (
+        "black",
+        "gray",
+        "silver",
+        "white",
+        "navy",
+        "blue",
+        "aqua",
+        "teal",
+        "eastern",
+        "purple",
+        "fuchsia",
+        "maroon",
+        "red",
+        "orange",
+        "yellow",
+        "olive",
+        "green",
+        "lime",
+      )
+  ) {
     return eval(x)
   }
 
@@ -138,6 +158,10 @@
   heading-weight: "bold",
   heading-style: "normal",
   heading-line-height: 0.65em,
+
+  // Link typography
+  link-family: (),
+  link-color: (),
 
   // Title typography
 
@@ -259,7 +283,6 @@
   )
 
   // Set overall text defaults
-
   set text(
     lang: lang,
     region: region,
@@ -273,7 +296,13 @@
   // Set font for inline code and blocks
   show raw: set text(font: monospace-family)
 
-  // Configure heading typography
+  //  Set link typography
+  show link: set text(
+    font: ifnone(link-family, font),
+    fill: rgb-color(link-color, fontfill)
+  )
+
+  // Set heading typography
   set heading(numbering: sectionnumbering)
 
   heading-family = ifnone(heading-family, font)
