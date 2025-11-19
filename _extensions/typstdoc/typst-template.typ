@@ -154,9 +154,9 @@
   // Heading typography
   heading-family: (),
   heading-fontsize: 1.2em,
-  heading-color: (),
   heading-weight: "bold",
   heading-style: "normal",
+  heading-color: (),
   heading-line-height: 0.65em,
 
   // Link typography
@@ -166,9 +166,9 @@
   // Title typography
 
   title-family: (),
-  title-fontsize: 1.5em,
+  title-size: 1.5em,
   title-weight: "bold",
-  title-fontfill: (),
+  title-color: (),
   title-align: left,
   title-inset: 0pt,
 
@@ -332,8 +332,8 @@
       #text(
         font: ifnone(title-family, heading-family),
         weight: title-weight,
-        size: title-fontsize,
-        fill: rgb-color(title-fontfill, heading-color),
+        size: title-size,
+        fill: rgb-color(title-color, heading-color),
       )[#title]
     ]]
 

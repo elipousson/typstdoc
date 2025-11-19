@@ -128,14 +128,18 @@ $if(title-family)$
 $elseif(title-font)$
   title-family: ("$title-font$",),
 $endif$
-$if(title-fontfill)$
-  title-fontfill: "$title-fontfill$",
+$if(title-color)$
+  title-color: "$title-color$",
+$elseif(title-fontfill)$
+  title-color: "$title-fontfill$",
 $endif$
 $if(title-align)$
   title-align: $title-align$,
 $endif$
-$if(title-fontsize)$
-  title-fontsize: $title-fontsize$,
+$if(title-size)$
+  title-size: $title-size$,
+$elseif(title-fontsize)$
+  title-size: $title-fontsize$,
 $endif$
 $if(title-inset)$
   title-inset: $title-inset$,
