@@ -123,8 +123,10 @@ $endif$
 
 // Title typography
 
-$if(title-font)$
-  title-font: ("$title-font$",),
+$if(title-family)$
+  title-family: ("$title-family$",),
+$elseif(title-font)$
+  title-family: ("$title-font$",),
 $endif$
 $if(title-fontfill)$
   title-fontfill: "$title-fontfill$",

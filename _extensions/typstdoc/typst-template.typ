@@ -165,7 +165,7 @@
 
   // Title typography
 
-  title-font: (),
+  title-family: (),
   title-fontsize: 1.5em,
   title-weight: "bold",
   title-fontfill: (),
@@ -330,7 +330,7 @@
   if title != none {
     align(title-align)[#block(inset: title-inset)[
       #text(
-        font: ifnone(title-font, heading-family),
+        font: ifnone(title-family, heading-family),
         weight: title-weight,
         size: title-fontsize,
         fill: rgb-color(title-fontfill, heading-color),
