@@ -226,7 +226,7 @@
   doc,
 ) = {
   // Format author names in a list with commas and a final "and".
-  let names = none
+  let names = ()
   let author-string = none
 
   if authors != none {
