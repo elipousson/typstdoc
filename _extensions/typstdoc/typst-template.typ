@@ -119,19 +119,9 @@
   date: none,
   abstract: none,
   abstract-title: none,
+  thanks: none, // Support TK
   lang: "en",
   region: "US",
-
-  // Page layout, fill, and numbering
-
-  paper: "us-letter",
-  cols: 1,
-  gutter: 4%,
-  margin: (x: 1.25in, y: 1.25in),
-  flipped: false,
-  fill: none,
-  page-numbering: "1",
-  page-number-align: right + bottom,
 
   // Typography
 
@@ -141,9 +131,13 @@
   fontfill: "black",
   slashed-zero: false,
   monospace-family: ("Roboto Mono", "Courier", ),
+  mathfont: none,
+  linestretch: 1,
+  linkcolor: none,
+  citecolor: none,
+  filecolor: none,
 
   // Body text typography
-
   justify: false,
   linebreaks: "optimized",
   first-line-indent: 0pt,
@@ -241,10 +235,6 @@
   // Set document metadata
   set document(title: title, author: names, description: abstract, keywords: keywords)
 
-  if fill != none {
-    fill = rgb-color(fill, "white")
-  }
-
   // Set font fill colors with default
   fontfill = rgb-color(fontfill, "black")
   header-fontfill = rgb-color(header-fontfill, fontfill)
@@ -252,15 +242,8 @@
 
   heading-color = rgb-color(heading-color, fontfill)
 
-  // Set page layout
+  // Set header and footer
   set page(
-    paper: paper,
-    flipped: flipped,
-    margin: margin,
-    fill: fill,
-    numbering: page-numbering,
-    number-align: page-number-align,
-
     // Set header defaults from other variables
     header: running-text-block(
       font: ifnone(header-font, font),
@@ -269,7 +252,6 @@
       text-align: header-align,
       header,
     ),
-    header-ascent: header-ascent,
 
     // Set footer defaults from other variables
     footer: running-text-block(
@@ -279,7 +261,6 @@
       text-align: footer-align,
       footer,
     ),
-    footer-descent: footer-descent,
   )
 
   // Set overall text defaults
@@ -294,7 +275,8 @@
   )
 
   // Set font for inline code and blocks
-  show raw: set text(font: monospace-family)
+  show raw: set text(font: monospace-family) if monospace-family != none
+  show math.equation: set text(font: mathfont) if mathfont != none
 
   //  Set link typography
   show link: set text(
@@ -318,6 +300,9 @@
   // show heading: set par(
   //   leading: heading-line-height,
   // )
+
+  show link: set text(fill: rgb(content-to-string(linkcolor))) if linkcolor != none
+  show ref: set text(fill: rgb(content-to-string(citecolor))) if citecolor != none
 
   // Show the bibliography, if supplied
   if bibliography-file != none {
@@ -431,13 +416,7 @@
     body-indent: list-body-indent,
   )
 
-  // Configure columns
-
-  if cols == 1 {
-    doc
-  } else {
-    columns(cols, gutter: (gutter), doc)
-  }
+  doc
 }
 
 #set table(

@@ -19,9 +19,9 @@ $if(by-author)$
       ),
 $endif$
 // TODO: Add support for keywords
-// $if(keywords)$
-//  keywords: ($for(keywords)$$keyword$$sep$,$endfor$),
-// $endif$
+$if(keywords)$
+  keywords: ($for(keywords)$"$keywords$",$endfor$),
+$endif$
 $if(date)$
   date: [$date$],
 $endif$
@@ -39,32 +39,8 @@ $if(abstract)$
   abstract-title: "$labels.abstract$",
   $endif$
 $endif$
-
-// Page layout, fill, and numbering
-
-// TODO: Consider removing page parameters to match main template
-// https://github.com/quarto-dev/quarto-cli/commit/75fbfd091caf62fb68bbf299db5c95c99bc60f00
-$if(margin)$
-  margin: ($for(margin/pairs)$$margin.key$: $margin.value$,$endfor$),
-$endif$
-$if(papersize)$
-  paper: "$papersize$",
-$endif$
-$if(flipped)$
-  flipped: $flipped$,
-$endif$
-cols: $if(columns)$$columns$$else$1$endif$, // Columns
-$if(gutter)$
-  gutter: $gutter$,
-$endif$
-$if(fill)$
-  fill: "$fill$",
-$endif$
-$if(page-numbering)$
-  page-numbering: "$page-numbering$",
-$endif$
-$if(page-number-align)$
-  page-number-align: $page-number-align$,
+$if(thanks)$
+  thanks: [$thanks$],
 $endif$
 
 // Typography
@@ -74,12 +50,19 @@ $if(mainfont)$
 $elseif(brand.typography.base.family)$
   font: $brand.typography.base.family$,
 $endif$
-$if(monofont)$
+$if(codefont)$
+  monospace-family: ("$codefont$",),
+$elseif(monofont)$
   monospace-family: ("$monofont$",),
 $elseif(monospace-family)$
   monospace-family: ("$monospace-family$",),
 $elseif(brand.typography.monospace.family)$
   monospace-family: $brand.typography.monospace.family$,
+$endif$
+$if(mathfont)$
+  mathfont: ("$mathfont$",),
+$elseif(brand.typography.math.family)$
+  mathfont: $brand.typography.math.family$,
 $endif$
 $if(fontsize)$
   fontsize: $fontsize$,
@@ -114,7 +97,10 @@ $endif$
 $if(hanging-indent)$
   hanging-indent: $hanging-indent$,
 $endif$
-$if(leading)$
+// Set linestretch *or* leading
+$if(linestretch)$
+  linestretch: $linestretch$,
+$elseif(leading)$
   leading: $leading$,
 $endif$
 $if(spacing)$
@@ -190,12 +176,20 @@ $if(link-family)$
 $elseif(brand.typography.link.family)$
   link-family: $brand.typography.link.family$,
 $endif$
-$if(link-color)$
+$if(linkcolor)$
+  linkcolor: [$linkcolor$],
+$elseif(link-color)$
   link-color: "$link-color$",
 $elseif(brand.typography.link.color)$
   link-color: $brand.typography.link.color$,
 $elseif(brand.color.primary)$
   link-color: $brand.color.primary$,
+$endif$
+$if(citecolor)$
+  citecolor: [$citecolor$],
+$endif$
+$if(filecolor)$
+  filecolor: [$filecolor$],
 $endif$
 
 // Table of contents
