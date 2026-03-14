@@ -1,14 +1,16 @@
+$numbering.typ()$
+
 $definitions.typ()$
 
 $typst-template.typ()$
 
-$page.typ()$
-
-$typst-show.typ()$
-
 $for(header-includes)$
 $header-includes$
 $endfor$
+
+$page.typ()$
+
+$typst-show.typ()$
 
 $for(include-before)$
 $include-before$
