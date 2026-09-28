@@ -1,6 +1,7 @@
 // 2023-10-09: #fa-icon("fa-info") is not working, so we'll eval "#fa-info()" instead
 // 2024-01-29: copied from quarto-cli and revised to use em units
 // 2025-10-21: updated to use new body_background_color argument
+// 2026-03-14: updated to use updated icon handling
 // See https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/typst/pandoc/quarto/definitions.typ
 #let callout(
   body: [],
@@ -24,15 +25,17 @@
         fill: background_color,
         width: 100%,
         inset: 0.25em,
-      )[#text(icon_color, baseline: -0.1em, size: 0.8em, weight: 700)[#icon] #title],
-    )
-      + block(
-        inset: 0.25em,
-        width: 100%,
-        block(fill: body_background_color, width: 100%, inset: 0.8em, body),
-      ),
+      )[#if icon != none [#text(icon_color, size: 0.8em, weight: 900)[#icon] ]#title]) +
+      if(body != []){
+        block(
+          inset: 0.25em,
+          width: 100%,
+          block(fill: body_background_color, width: 100%, inset: 0.8em, body)
+        )
+      }
   )
 }
+
 
 #let ifnone(x, default) = {
   if x == none {
@@ -88,6 +91,42 @@
   rgb(x)
 }
 
+// Convert content to a plain string, e.g. for PDF metadata. Unlike Quarto's
+// content-to-string(), this keeps smart quotes.
+#let plain-text(it) = {
+  if it == none {
+    ""
+  } else if type(it) == str {
+    it
+  } else if it.has("text") {
+    it.text
+  } else if it.has("children") {
+    it.children.map(plain-text).join()
+  } else if it.has("body") {
+    plain-text(it.body)
+  } else if it.func() == smartquote {
+    if it.at("double", default: true) { "\"" } else { "'" }
+  } else if it == [ ] {
+    " "
+  } else {
+    ""
+  }
+}
+
+// Normalize a font option to an array of font families. Accepts one family,
+// a comma-separated string of fallbacks ("Roboto, Arial"), or an array.
+#let font-list(x) = {
+  if x == none or x == auto {
+    return x
+  }
+
+  let fonts = if type(x) == array { x } else { (x,) }
+  fonts
+    .map(f => if type(f) == str { f.split(",").map(str.trim) } else { (f,) })
+    .flatten()
+    .filter(f => f != "")
+}
+
 #let running-text-block(
   font: (),
   fontsize: 10pt,
@@ -98,7 +137,7 @@
   content,
 ) = {
   if content == none {
-    return none
+    return auto
   }
 
   align(text-align, block(
@@ -106,6 +145,50 @@
     inset: inset,
     [#text(fill: fontfill, size: fontsize, font: font, content)],
   ))
+}
+
+// Container for a definition list (added by terms.lua). Quarto's
+// definitions.typ has a `show terms.item` rule that turns items written as
+// markup into plain blocks, which drops the list's PDF tags (L/LI/Lbl/LBody)
+// and ignores `set terms` rules. Rebuilding the items into an explicit
+// `terms()` call keeps the native layout and tagging. Each term is labelled so
+// typstdoc() can style it, and `strong` is switched off for the term so
+// `term-weight` sets the final weight. Block spacing at the start and end of a
+// container is dropped, so the list keeps paragraph spacing from surrounding
+// text.
+#let typstdoc-terms(body) = context {
+  // Each term is a sticky block so it stays on the same page as its
+  // definition. The separator and hanging indent from `set terms` are applied
+  // here because a block term takes them out of the native layout.
+  let separator = terms.separator
+  let hanging-indent = terms.hanging-indent
+
+  let children = if body.has("children") { body.children } else { (body,) }
+  let items = children
+    .filter(child => child.func() == terms.item)
+    .map(item => {
+      // Pandoc wraps each definition in a block; use line spacing rather than
+      // paragraph spacing between it and the term
+      let description = item.description
+      if description.func() == block {
+        let fields = description.fields()
+        let body = fields.remove("body", default: none)
+        description = block(..fields, above: par.leading, inset: (left: hanging-indent), body)
+      } else {
+        description = block(above: par.leading, inset: (left: hanging-indent), description)
+      }
+
+      terms.item(
+        block(sticky: true)[#[#item.term]<typstdoc-term>#separator],
+        [#set strong(delta: 300); #description],
+      )
+    })
+
+  block(above: par.spacing, below: par.spacing, {
+    set strong(delta: 0)
+    set terms(separator: [], hanging-indent: 0pt)
+    terms(..items)
+  })
 }
 
 #let typstdoc(
@@ -119,7 +202,7 @@
   date: none,
   abstract: none,
   abstract-title: none,
-  thanks: none, // Support TK
+  thanks: none,
   lang: "en",
   region: "US",
 
@@ -132,8 +215,7 @@
   slashed-zero: false,
   monospace-family: ("Roboto Mono", "Courier", ),
   mathfont: none,
-  linestretch: 1,
-  linkcolor: none,
+  linestretch: none,
   citecolor: none,
   filecolor: none,
 
@@ -155,7 +237,8 @@
 
   // Link typography
   link-family: (),
-  link-color: (),
+  linkcolor: none,
+  // link-color: none,
 
   // Title typography
 
@@ -192,16 +275,26 @@
   header: none,
   header-font: (),
   header-fontsize: (),
-  header-fontfill: (),
+  header-color: (),
   header-align: left,
   header-ascent: 30%,
 
   footer: none,
   footer-font: (),
   footer-fontsize: (),
-  footer-fontfill: (),
+  footer-color: (),
   footer-align: left,
   footer-descent: 30%,
+
+  // Term (definition) lists
+
+  terms-tight: true,
+  terms-indent: 0pt,
+  terms-hanging-indent: 1.5em,
+  terms-spacing: auto,
+  terms-separator: none,
+  term-color: (),
+  term-weight: "bold",
 
   // List numbering and indent
 
@@ -211,11 +304,9 @@
   // list-tight: false,
   // list-spacing: auto,
 
-  // Bibliography
+  // Block quotes
 
-  bibliography-file: none,
-
-  // blockquote-fontsize: 11pt,
+  blockquote-fontsize: none,
 
   doc,
 ) = {
@@ -233,12 +324,27 @@
   }
 
   // Set document metadata
-  set document(title: title, author: names, description: abstract, keywords: keywords)
+  set document(
+    title: title,
+    author: names.map(plain-text),
+    description: abstract,
+    keywords: keywords,
+  )
+
+  // Normalize font options to arrays of fallback families
+  font = font-list(font)
+  monospace-family = font-list(monospace-family)
+  mathfont = font-list(mathfont)
+  heading-family = font-list(heading-family)
+  title-family = font-list(title-family)
+  link-family = font-list(link-family)
+  header-font = font-list(header-font)
+  footer-font = font-list(footer-font)
 
   // Set font fill colors with default
   fontfill = rgb-color(fontfill, "black")
-  header-fontfill = rgb-color(header-fontfill, fontfill)
-  footer-fontfill = rgb-color(footer-fontfill, fontfill)
+  header-color = rgb-color(header-color, fontfill)
+  footer-color = rgb-color(footer-color, fontfill)
 
   heading-color = rgb-color(heading-color, fontfill)
 
@@ -248,7 +354,7 @@
     header: running-text-block(
       font: ifnone(header-font, font),
       fontsize: ifnone(header-fontsize, fontsize),
-      fontfill: header-fontfill,
+      fontfill: header-color,
       text-align: header-align,
       header,
     ),
@@ -257,7 +363,7 @@
     footer: running-text-block(
       font: ifnone(footer-font, font),
       fontsize: ifnone(footer-fontsize, fontsize),
-      fontfill: footer-fontfill,
+      fontfill: footer-color,
       text-align: footer-align,
       footer,
     ),
@@ -278,12 +384,6 @@
   show raw: set text(font: monospace-family) if monospace-family != none
   show math.equation: set text(font: mathfont) if mathfont != none
 
-  //  Set link typography
-  show link: set text(
-    font: ifnone(link-family, font),
-    fill: rgb-color(link-color, fontfill)
-  )
-
   // Set heading typography
   set heading(numbering: sectionnumbering)
 
@@ -297,35 +397,43 @@
     style: heading-style,
   )
 
-  // show heading: set par(
-  //   leading: heading-line-height,
-  // )
+  show heading: set par(leading: heading-line-height)
 
-  show link: set text(fill: rgb(content-to-string(linkcolor))) if linkcolor != none
-  show ref: set text(fill: rgb(content-to-string(citecolor))) if citecolor != none
-
-  // Show the bibliography, if supplied
-  if bibliography-file != none {
-    show bibliography: set text(fontsize * 0.8)
-    show bibliography: pad.with(x: fontsize * 0.4)
-    bibliography(bibliography-file)
+  // Set link typography. `filecolor` applies to links to labels within the
+  // document (as in Quarto's default template) and `linkcolor` to all others.
+  show link: set text(font: link-family) if link-family != ()
+  show link: it => {
+    let link-fill = if filecolor != none and type(it.dest) == label {
+      filecolor
+    } else {
+      linkcolor
+    }
+    if link-fill == none { return it }
+    set text(fill: rgb-color(link-fill, fontfill))
+    it
   }
+  show ref: set text(fill: rgb-color(citecolor, fontfill)) if citecolor != none
 
-  // Show title and subtitle (if title supplied)
+  // Set block quote typography
+  show quote.where(block: true): set text(size: blockquote-fontsize) if blockquote-fontsize != none
+
+  // Show title, subtitle, and thanks (if title supplied)
   if title != none {
     align(title-align)[#block(inset: title-inset)[
-      #text(
+      #set par(leading: heading-line-height)
+      #set text(
         font: ifnone(title-family, heading-family),
-        weight: title-weight,
-        size: title-size,
         fill: rgb-color(title-color, heading-color),
-      )[#title]
+      )
+      #text(weight: title-weight, size: title-size)[#title]#if thanks != none {
+        footnote(thanks, numbering: "*")
+        counter(footnote).update(n => n - 1)
+      }
+      #if subtitle != none {
+        parbreak()
+        text(size: subtitle-size)[#subtitle]
+      }
     ]]
-
-    if subtitle != none {
-      parbreak()
-      text(size: subtitle-size)[#subtitle]
-    }
   }
 
   // Show authors, date, and abstract
@@ -354,7 +462,8 @@
     first-line-indent: first-line-indent,
     hanging-indent: hanging-indent,
     linebreaks: linebreaks,
-    leading: leading,
+    // linestretch scales the default leading, as in Quarto's default template
+    leading: if linestretch != none { linestretch * 0.65em } else { leading },
     spacing: spacing,
   )
 
@@ -402,7 +511,6 @@
   }
 
   // Configure lists
-
   set enum(
     indent: list-indent,
     numbering: list-numbering,
@@ -414,6 +522,19 @@
     // tight: list-tight,
     // spacing: list-spacing,
     body-indent: list-body-indent,
+  )
+
+  // Configure term (definition) lists; see typstdoc-terms() above
+  set terms(
+    tight: terms-tight,
+    indent: terms-indent,
+    hanging-indent: terms-hanging-indent,
+    spacing: terms-spacing,
+  )
+  set terms(separator: terms-separator) if terms-separator != none
+  show <typstdoc-term>: set text(
+    fill: rgb-color(term-color, fontfill),
+    weight: term-weight,
   )
 
   doc

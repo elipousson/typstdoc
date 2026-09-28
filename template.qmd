@@ -28,6 +28,7 @@ format:
     footer: "This is a custom footer"
     footer-fontfill: blue
     list-indent: 1em
+    terms-tight: true
 ---
 
 # About this template
@@ -40,6 +41,8 @@ Etiam ullamcorper neque sed sapien viverra consequat vel sit amet ipsum. Vivamus
 
 <https://quarto.org/docs/prerelease/1.4/typst.html#custom-formats>
 
+[This is a link](https://quarto.org/docs/prerelease/1.4/typst.html#custom-formats)
+
 :::{.callout-note collapse=false appearance='default' icon=true}
 ## Optional caption (note)
 - Hide callout body with 'collapse=true'
@@ -47,6 +50,9 @@ Etiam ullamcorper neque sed sapien viverra consequat vel sit amet ipsum. Vivamus
 - Set appearance to 'default', 'simple' or 'minimal'
 - Remove icon with 'icon=false'
 :::
+
+Term
+: Definition for term
 
 Aenean pretium dui libero, vitae consectetur quam rhoncus ut. Nullam turpis eros, lobortis id mi eget, euismod aliquet ligula.
 

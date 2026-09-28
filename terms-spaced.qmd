@@ -1,0 +1,45 @@
+---
+title: "Term Lists: Spaced"
+format:
+  typstdoc-typst:
+    terms-tight: false
+    terms-spacing: 1.5em
+    terms-indent: 1em
+    terms-hanging-indent: 3em
+    terms-separator: "—"
+    term-color: maroon
+    term-weight: regular
+---
+
+This example spreads items apart, indents the whole list, and uses a deeper definition indent, an em dash separator, and plain maroon terms:
+
+```yaml
+terms-tight: false
+terms-spacing: 1.5em
+terms-indent: 1em
+terms-hanging-indent: 3em
+terms-separator: "—"
+term-color: maroon
+term-weight: regular
+```
+
+# Term lists
+
+Pandoc wraps each definition in a block, so the definition starts on the line below its term and is indented by `terms-hanging-indent`. A definition with more than one paragraph needs a blank line between the term and the `:` line, or Pandoc joins the paragraphs.
+
+Typst
+: A markup-based typesetting system.
+
+Quarto
+: An open-source scientific and technical publishing system built on Pandoc. This definition is long enough to wrap so you can see how the hanging indent lines up continuation lines.
+
+Pandoc
+
+: A universal document converter.
+
+    A definition can hold more than one paragraph.
+
+`code` and *emphasis* in a term
+: Inline formatting in the term is kept alongside the term styling.
+
+Some body text after the list shows the spacing below it.

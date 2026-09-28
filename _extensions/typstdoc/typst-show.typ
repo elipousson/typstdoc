@@ -11,7 +11,7 @@ $if(by-author)$
   authors: (
   $for(by-author)$
   $if(it.name.literal)$
-      ( name: "$it.name.literal$",
+      ( name: [$it.name.literal$],
         affiliation: [$for(it.affiliations)$$it.name$$sep$, $endfor$],
         email: [$it.email$] ),
   $endif$
@@ -46,21 +46,21 @@ $endif$
 // Typography
 
 $if(mainfont)$
-  font: ("$mainfont$",),
+  font: ($for(mainfont)$"$mainfont$",$endfor$),
 $elseif(brand.typography.base.family)$
   font: $brand.typography.base.family$,
 $endif$
 $if(codefont)$
-  monospace-family: ("$codefont$",),
+  monospace-family: ($for(codefont)$"$codefont$",$endfor$),
 $elseif(monofont)$
-  monospace-family: ("$monofont$",),
+  monospace-family: ($for(monofont)$"$monofont$",$endfor$),
 $elseif(monospace-family)$
-  monospace-family: ("$monospace-family$",),
+  monospace-family: ($for(monospace-family)$"$monospace-family$",$endfor$),
 $elseif(brand.typography.monospace.family)$
   monospace-family: $brand.typography.monospace.family$,
 $endif$
 $if(mathfont)$
-  mathfont: ("$mathfont$",),
+  mathfont: ($for(mathfont)$"$mathfont$",$endfor$),
 $elseif(brand.typography.math.family)$
   mathfont: $brand.typography.math.family$,
 $endif$
@@ -110,9 +110,9 @@ $endif$
 // Title typography
 
 $if(title-family)$
-  title-family: ("$title-family$",),
+  title-family: ($for(title-family)$"$title-family$",$endfor$),
 $elseif(title-font)$
-  title-family: ("$title-font$",),
+  title-family: ($for(title-font)$"$title-font$",$endfor$),
 $endif$
 $if(title-color)$
   title-color: "$title-color$",
@@ -141,11 +141,11 @@ $if(section-numbering)$
 $endif$
 
 $if(heading-family)$
-  heading-family: ("$heading-family$",),
+  heading-family: ($for(heading-family)$"$heading-family$",$endfor$),
+$elseif(heading-font)$
+  heading-family: ($for(heading-font)$"$heading-font$",$endfor$),
 $elseif(brand.typography.headings.family)$
   heading-family: $brand.typography.headings.family$,
-$elseif(heading-font)$
-  heading-family: ("$heading-font$",),
 $endif$
 $if(brand.typography.headings.weight)$
   heading-weight: $brand.typography.headings.weight$,
@@ -162,7 +162,9 @@ $elseif(brand.typography.headings.color)$
 $elseif(heading-fontfill)$
   heading-color: "$heading-fontfill$",
 $endif$
-$if(brand.typography.headings.line-height)$
+$if(heading-line-height)$
+  heading-line-height: $heading-line-height$,
+$elseif(brand.typography.headings.line-height)$
   heading-line-height: $brand.typography.headings.line-height$,
 $endif$
 $if(heading-fontsize)$
@@ -172,24 +174,22 @@ $elseif(brand.typography.headings.size)$
 $endif$
 
 $if(link-family)$
-  link-family: ("$link-family$",),
+  link-family: ($for(link-family)$"$link-family$",$endfor$),
 $elseif(brand.typography.link.family)$
   link-family: $brand.typography.link.family$,
 $endif$
 $if(linkcolor)$
-  linkcolor: [$linkcolor$],
+  linkcolor: "$linkcolor$",
 $elseif(link-color)$
-  link-color: "$link-color$",
-$elseif(brand.typography.link.color)$
-  link-color: $brand.typography.link.color$,
+  linkcolor: "$link-color$",
 $elseif(brand.color.primary)$
-  link-color: $brand.color.primary$,
+  linkcolor: "$brand.color.primary$",
 $endif$
 $if(citecolor)$
-  citecolor: [$citecolor$],
+  citecolor: "$citecolor$",
 $endif$
 $if(filecolor)$
-  filecolor: [$filecolor$],
+  filecolor: "$filecolor$",
 $endif$
 
 // Table of contents
@@ -228,14 +228,19 @@ $endif$
 $if(header)$
   header: [$header$],
 $endif$
-$if(header-fontfill)$
-  header-fontfill: "$header-fontfill$",
+$if(header-color)$
+  header-color: "$header-color$",
+$elseif(header-fontfill)$
+  header-color: "$header-fontfill$",
+$endif$
+$if(header-font)$
+  header-font: ($for(header-font)$"$header-font$",$endfor$),
 $endif$
 $if(header-fontsize)$
   header-fontsize: $header-fontsize$,
 $endif$
 $if(header-align)$
-  header-align: [$header-align$],
+  header-align: $header-align$,
 $endif$
 $if(header-ascent)$
   header-ascent: $header-ascent$,
@@ -243,17 +248,44 @@ $endif$
 $if(footer)$
   footer: [$footer$],
 $endif$
-$if(footer-fontfill)$
-  footer-fontfill: "$footer-fontfill$",
+$if(footer-color)$
+  footer-color: "$footer-color$",
+$elseif(footer-fontfill)$
+  footer-color: "$footer-fontfill$",
+$endif$
+$if(footer-font)$
+  footer-font: ($for(footer-font)$"$footer-font$",$endfor$),
 $endif$
 $if(footer-fontsize)$
   footer-fontsize: $footer-fontsize$,
 $endif$
 $if(footer-align)$
-  footer-align: [$footer-align$],
+  footer-align: $footer-align$,
 $endif$
 $if(footer-descent)$
   footer-descent: $footer-descent$,
+$endif$
+
+// Term (definition) lists
+
+  terms-tight: $if(terms-tight)$true$else$false$endif$,
+$if(terms-indent)$
+  terms-indent: $terms-indent$,
+$endif$
+$if(terms-hanging-indent)$
+  terms-hanging-indent: $terms-hanging-indent$,
+$endif$
+$if(terms-spacing)$
+  terms-spacing: $terms-spacing$,
+$endif$
+$if(terms-separator)$
+  terms-separator: [$terms-separator$],
+$endif$
+$if(term-color)$
+  term-color: "$term-color$",
+$endif$
+$if(term-weight)$
+  term-weight: "$term-weight$",
 $endif$
 
 // List numbering and indent
@@ -274,12 +306,6 @@ $endif$
 // $if(list-spacing)$
 //   list-spacing: $list-spacing$,
 // $endif$
-
-// Bibliography
-
-$if(bibliography)$
-  bibliography-file: "$bibliography$",
-$endif$
 
 $if(blockquote-fontsize)$
   blockquote-fontsize: $blockquote-fontsize$,
